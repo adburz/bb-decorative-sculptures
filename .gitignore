@@ -16,7 +16,13 @@ pnpm-debug.log*
 .env
 .env.local
 .env.*.local
+packages/web/.env.local
+packages/sanity/.env.local
 !.env.example
+
+# Lint / test caches
+.eslintcache
+coverage/
 
 # Astro
 dist/
@@ -38,6 +44,9 @@ packages/sanity/dist/
 .idea/
 *.swp
 *.swo
+
+# Claude Code local settings
+.claude/
 
 # OS / misc
 Thumbs.db

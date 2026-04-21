@@ -6,6 +6,7 @@ Plan implementacji strony-katalogu rzeźb dekoracyjnych. Stack uzgodniony: **Ast
 **Domena:** `dekoracyjna-rzezba.pl`
 
 Ten plan odwołuje się do:
+
 - [DESIGN_ANALYSIS.md](DESIGN_ANALYSIS.md) — co zostało odczytane z makiet.
 - [PARALLEL_TASKS.md](PARALLEL_TASKS.md) — zadania po stronie właściciela (kont, treści, domeny).
 
@@ -23,7 +24,8 @@ Ten plan odwołuje się do:
 ### Uwagi do stacku
 
 **Web3Forms — ograniczenia do zapamiętania:**
-- Email dostarczany *od* własnego adresu Web3Forms (`noreply@web3forms.com`), więc:
+
+- Email dostarczany _od_ własnego adresu Web3Forms (`noreply@web3forms.com`), więc:
   - **Deliverability** może kiepścić (spam folder) — trzeba odświeżyć skrzynkę kilka razy po deploy i oznaczyć jako „nie-spam" w Gmailu
   - **Reply-To** ustawia się na email wypełniony w formularzu → odpowiedź trafia bezpośrednio do klienta
   - Brak brand-owej sygnatury w treści, ale to temat wtórny
@@ -146,6 +148,7 @@ decorative-sculptures/
 ```
 
 Dlaczego monorepo:
+
 - `web` i `sanity` mają różne zależności (Astro vs React), różne buildy i różne deploymenty.
 - Wspólne typy (TypeScript) sculptures można dzielić przez `sanity-codegen` → import do `web`.
 - Jeden PR może objąć zmiany w schema + nowe query w Astro bez wielopakietowych tag-releasów.
@@ -174,6 +177,7 @@ Te decyzje architektoniczne nie dokładają pracy w MVP, ale chronią przed prze
 ### 2. Newsletter — „dodaj w 1 sesji kiedy będziesz gotowy"
 
 Przygotowania w MVP (zero widocznych efektów, żeby potem było szybko):
+
 - **Schema Sanity:** `packages/sanity/schemas/documents/newsletterPost.ts` — **nie tworzymy w MVP**, ale `post.ts` (blog) ma pole `newsletterEligible: boolean` (wyłączone domyślnie) — żebyś mógł później oznaczać, które posty wysyłać do subskrybentów.
 - **Feature flag:** `PUBLIC_NEWSLETTER_ENABLED=false` w `.env` + warunkowy render:
   ```astro
@@ -198,6 +202,31 @@ Przygotowania w MVP (zero widocznych efektów, żeby potem było szybko):
 - Sanity `localizedString` / `localizedText` przyjmują dowolną listę języków w `sanity.config.ts` — dopisanie `de` włącza pola we wszystkich dokumentach.
 - Slugi per język już są (patrz Faza 1), więc nowy język nie łamie istniejących URLi.
 
+### 5. Content — „lokalne fixtures domyślnie w dev, prawdziwe Sanity w produkcji"
+
+Domyślnie repo działa **offline z lokalnymi fixtures**. Dopiero przed deployem na Cloudflare Pages (Faza 7) przełączamy na prawdziwe dane z Sanity. To znacząco obniża próg wejścia (onboarding = `pnpm install && pnpm dev:web`, bez DNS, bez kont, bez access tokenów) i pozwala pracować w pociągu.
+
+- **Flag środowiskowa:** `PUBLIC_CONTENT_SOURCE` = `"fixtures"` (lokalnie, default) lub `"sanity"` (produkcja / jeśli chcesz live content lokalnie).
+- **`.env.example`** zawiera `PUBLIC_CONTENT_SOURCE=fixtures` — projekt działa bez internetu, bez credentiali Sanity.
+- **Fixture data** w `packages/web/src/fixtures/`:
+  - `sculptures.ts` — 2–3 przykłady zgodne z typem z Sanity
+  - `siteSettings.ts` (brand, copy, kontakt, social)
+  - `artistPage.ts` (bio PL+EN, portret placeholder, quote)
+  - `posts.ts` (opcjonalnie, gdy blog wchodzi w Fazie 4)
+- **Adapter** w `src/lib/content/index.ts`:
+  ```ts
+  const source = import.meta.env.PUBLIC_CONTENT_SOURCE ?? "fixtures";
+  export async function getSculptures(): Promise<Sculpture[]> {
+    if (source === "fixtures") {
+      return (await import("../../fixtures/sculptures")).default;
+    }
+    return sanityClient.fetch(sculpturesListQuery);
+  }
+  ```
+  Komponenty i strony zawsze wołają `getSculptures()` / `getSiteSettings()` — nie wiedzą skąd przychodzą dane.
+- **Przełączenie na produkcję (Faza 7):** w Cloudflare Pages → Environment variables: `PUBLIC_CONTENT_SOURCE=sanity` + `SANITY_PROJECT_ID`, `SANITY_DATASET`, `SANITY_API_TOKEN`. Żadna zmiana w kodzie. Ten krok jest explicit checklist item w Fazie 7.
+- **Zalety:** dev offline, szybszy feedback loop (brak roundtripu do Sanity CDN), onboarding bez konfigurowania API keys, łatwy rollback gdy Sanity ma incident.
+
 ---
 
 ## Konwencje kodu (obowiązujące od Fazy 0)
@@ -219,6 +248,7 @@ Przygotowania w MVP (zero widocznych efektów, żeby potem było szybko):
 **Cel:** Zainicjalizowane monorepo z działającym `pnpm install`, prettier, eslint, typecheck.
 
 **Zadania:**
+
 - [ ] `git init` + pierwszy commit na branchu `main`
 - [ ] root `package.json` z `workspaces` / `pnpm-workspace.yaml`
 - [ ] `.gitignore` (Astro + Sanity + Node)
@@ -234,6 +264,7 @@ Przygotowania w MVP (zero widocznych efektów, żeby potem było szybko):
 **Pliki:** `package.json`, `pnpm-workspace.yaml`, `.prettierrc`, `eslint.config.js`, `tsconfig.base.json`, `.github/workflows/ci.yml`, `README.md`, `.env.example`, `.gitignore`, `.editorconfig`.
 
 **Kryteria ukończenia:**
+
 - `pnpm install` przechodzi bez błędów
 - `pnpm lint` i `pnpm typecheck` zwracają 0 (jeszcze nic nie lintują, ale infrastruktura gotowa)
 - CI na GitHub zielony na pierwszym PR
@@ -249,6 +280,7 @@ Przygotowania w MVP (zero widocznych efektów, żeby potem było szybko):
 **Cel:** Uruchomione lokalnie Sanity Studio z pełnym schemą + seed 3–5 przykładowych rzeźb, z których można zacząć pobierać dane.
 
 **Zadania:**
+
 - [ ] `pnpm create sanity@latest` w `packages/sanity`, projekt pusty, dataset `production`
 - [ ] Zainstalować `@sanity/document-internationalization`
 - [ ] Obiekty reużywalne: `localizedString`, `localizedText`, `priceInfo`, `dimensions`, `seoFields`, `imageWithAlt`
@@ -266,6 +298,7 @@ Przygotowania w MVP (zero widocznych efektów, żeby potem było szybko):
 **Pliki:** `packages/sanity/schemas/**/*`, `sanity.config.ts`, `sanity.cli.ts`.
 
 **Przykład schema (fragment dla ilustracji — nie jest to kod produkcyjny):**
+
 ```ts
 // packages/sanity/schemas/documents/sculpture.ts
 import { defineField, defineType } from "sanity";
@@ -274,13 +307,22 @@ export default defineType({
   type: "document",
   title: "Sculpture",
   fields: [
-    defineField({ name: "title", type: "localizedString", validation: r => r.required() }),
+    defineField({ name: "title", type: "localizedString", validation: (r) => r.required() }),
     defineField({ name: "slug", type: "slug", options: { source: "title.en", maxLength: 80 } }),
     defineField({ name: "material", type: "reference", to: [{ type: "material" }] }),
     defineField({ name: "dimensions", type: "dimensions" }),
     defineField({ name: "price", type: "priceInfo" }),
-    defineField({ name: "status", type: "string", options: { list: ["available", "sold", "reserved"] } }),
-    defineField({ name: "gallery", type: "array", of: [{ type: "imageWithAlt" }], validation: r => r.min(1).max(12) }),
+    defineField({
+      name: "status",
+      type: "string",
+      options: { list: ["available", "sold", "reserved"] },
+    }),
+    defineField({
+      name: "gallery",
+      type: "array",
+      of: [{ type: "imageWithAlt" }],
+      validation: (r) => r.min(1).max(12),
+    }),
     defineField({ name: "description", type: "localizedText" }),
     defineField({ name: "seo", type: "seoFields" }),
     defineField({ name: "publishedAt", type: "datetime" }),
@@ -289,6 +331,7 @@ export default defineType({
 ```
 
 **Kryteria ukończenia:**
+
 - `pnpm dev:sanity` uruchamia Studio na `localhost:3333`
 - Wszystkie schematy działają bez błędów walidacji
 - 5 rzeźb seeded i można je wylistować przez Vision query `*[_type=="sculpture"]`
@@ -305,6 +348,7 @@ export default defineType({
 **Cel:** Uruchomiony Astro z Tailwindem, dwujęzyczny routing PL/EN, BaseLayout z meta/hreflang, design tokens z Fazy DESIGN_ANALYSIS wczepione w Tailwind config.
 
 **Zadania:**
+
 - [ ] `pnpm create astro@latest` w `packages/web` (template: „minimal", TypeScript strict)
 - [ ] Integracje: `@astrojs/tailwind`, `@astrojs/sitemap`, `@astrojs/cloudflare` (lub `@astrojs/node` na start, zmiana na Cloudflare w Fazie 7)
 - [ ] `tailwind.config.cjs` z `theme.extend.colors.brand.*` (hex z `DESIGN_ANALYSIS.md`), font-family (serif + sans), spacing scale
@@ -318,6 +362,7 @@ export default defineType({
 **Pliki:** `packages/web/astro.config.mjs`, `tailwind.config.cjs`, `src/layouts/BaseLayout.astro`, `src/lib/i18n/*`, `src/pages/index.astro`, `src/pages/pl/index.astro`, `src/pages/en/index.astro`, `src/styles/globals.css`.
 
 **Kryteria ukończenia:**
+
 - `pnpm dev:web` → `localhost:4321/` → redirect na `/pl/`
 - `/en/` działa
 - Tailwind classes działają (test np. `bg-brand-accent text-brand-bg`)
@@ -335,6 +380,7 @@ export default defineType({
 **Cel:** Biblioteka komponentów atomowych/molekularnych/sekcji, gotowa do składania stron — wszystko statyczne, bez danych.
 
 **Zadania:**
+
 - [ ] `primitives/Button.astro` (warianty `primary`, `ghost`)
 - [ ] `primitives/Badge.astro` (warianty `available`, `sold`)
 - [ ] `primitives/Input.astro` + `Textarea.astro` (z walidacją visualną + aria)
@@ -352,6 +398,7 @@ export default defineType({
 **Pliki:** `packages/web/src/components/**/*.astro`, `src/pages/_dev/components.astro`.
 
 **Kryteria ukończenia:**
+
 - Wszystkie komponenty renderują się w `_dev/components` bez błędów
 - Wizualnie zgodne z makietą (porównanie side-by-side z PNG-ami) — Ty potwierdzasz
 - Mobile breakpointy działają (Chrome DevTools responsive)
@@ -368,6 +415,9 @@ export default defineType({
 **Cel:** Wszystkie strony działają z prawdziwymi danymi z Sanity, statyczne (SSG), z poprawnymi canonical i hreflang.
 
 **Zadania:**
+
+- [ ] Adapter `src/lib/content/index.ts` — wrapper nad źródłami danych, wybiera fixtures/Sanity na podstawie `PUBLIC_CONTENT_SOURCE` (architektonicznie: hook #5). Komponenty wołają `getSculptures()` zamiast bezpośrednio klienta Sanity.
+- [ ] Fixtures seed w `packages/web/src/fixtures/` — `sculptures.ts` (min. 2 rzeźby), `siteSettings.ts`, `artistPage.ts`, `posts.ts`. Typy zgodne z schematami Sanity (respektuj `localizedString`, `imageWithAlt`), żeby swap na Sanity nie wymagał refactoringu komponentów.
 - [ ] `src/lib/sanity/client.ts` — `createClient({ projectId, dataset, apiVersion, useCdn: true })`
 - [ ] `src/lib/sanity/queries.ts` — GROQ:
   - `siteSettingsQuery` (dla BaseLayout)
@@ -393,6 +443,7 @@ export default defineType({
 **Pliki:** `src/lib/sanity/*`, wszystkie `src/pages/pl/**/*.astro` i `src/pages/en/**/*.astro`.
 
 **Kryteria ukończenia:**
+
 - `pnpm build` przechodzi bez błędów; wygenerowane `.html` dla wszystkich rzeźb (PL+EN)
 - Każda strona renderuje poprawne dane z Sanity
 - Przełącznik języka na szczególe rzeźby prowadzi do tej samej rzeźby w drugim języku
@@ -409,6 +460,7 @@ export default defineType({
 **Cel:** Działający formularz na Contact i w stopce, wysyła maila na adres właściciela przez Web3Forms, z anti-spam, kontekstowo wie o rzeźbie (gdy wypełniony z detailu).
 
 **Zadania:**
+
 - [ ] Dodać `zod` do `packages/web`
 - [ ] Schema `contactSchema` (name min 2, email valid, subject optional, message min 10, honeypot must be empty)
 - [ ] Integracja Cloudflare Turnstile (vanilla JS, bez React):
@@ -427,7 +479,7 @@ export default defineType({
         access_key: import.meta.env.WEB3FORMS_ACCESS_KEY,
         from_name: `[dekoracyjna-rzezba.pl] ${name}`,
         subject: subject || `Zapytanie od ${name}`,
-        email: email,  // → reply_to
+        email: email, // → reply_to
         message: `${message}\n\n---\n${sculptureContext}\nIP (Cloudflare): ${clientIp}`,
       }),
     });
@@ -441,6 +493,7 @@ export default defineType({
 **Pliki:** `src/pages/api/contact.ts`, `src/components/contact/ContactForm.astro`, `src/lib/validation/contact.ts`, `.env` (+ `WEB3FORMS_ACCESS_KEY`, `PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`).
 
 **Kryteria ukończenia:**
+
 - Wysłanie formularza z deweloperskiego środowiska → email dostarczony do skrzynki właściciela (może wymagać „not spam" przy pierwszym razie)
 - Spam z wypełnionym honeypot → 400 (odrzucony)
 - Spam bez Turnstile tokenu → 400
@@ -458,6 +511,7 @@ export default defineType({
 **Cel:** PageSpeed ≥95 na Home, Sculptures i Sculpture detail; pełne JSON-LD; sitemap + sitemap-images; Google Images friendly.
 
 **Zadania:**
+
 - [ ] `sitemap.xml` generowany przez `@astrojs/sitemap` z customową konfiguracją dla hreflang per URL
 - [ ] `sitemap-sculptures.xml.ts` — endpoint generujący sitemap-images z wpisami `<image:image>` dla każdej rzeźby (wymagane do Google Images)
 - [ ] `robots.txt` generowany w public z wpisem `Sitemap: https://domena/sitemap-index.xml`
@@ -467,11 +521,14 @@ export default defineType({
     ```json
     {
       "@type": "Product",
-      "name": "…", "image": ["…"], "description": "…",
+      "name": "…",
+      "image": ["…"],
+      "description": "…",
       "brand": { "@type": "Brand", "name": "Atelier Mira" },
       "offers": {
         "@type": "Offer",
-        "price": "3800", "priceCurrency": "EUR",
+        "price": "3800",
+        "priceCurrency": "EUR",
         "availability": "https://schema.org/InStock",
         "url": "…"
       }
@@ -504,6 +561,7 @@ export default defineType({
 **Pliki:** `src/pages/sitemap-sculptures.xml.ts`, `src/lib/seo/meta.ts`, `src/lib/seo/jsonld.ts`, `public/robots.txt`.
 
 **Kryteria ukończenia:**
+
 - PageSpeed Insights ≥95 performance + ≥95 SEO + ≥95 a11y na Home, Sculptures list, Sculpture detail (mobile + desktop)
 - `https://validator.schema.org/` → 0 errors na wybranej rzeźbie
 - Sitemap + sitemap-images poprawne w [https://www.xml-sitemaps.com/validate-xml-sitemap.html](https://www.xml-sitemaps.com/validate-xml-sitemap.html)
@@ -520,6 +578,7 @@ export default defineType({
 **Cel:** Strona dostępna pod własną domeną, HTTPS, automatyczne deploys per PR, rebuild po publikacji w Sanity.
 
 **Zadania:**
+
 - [ ] Cloudflare Pages: nowy projekt z GitHub integration, branch `main` = production
 - [ ] Build command: `pnpm --filter web build`, output dir: `packages/web/dist`
 - [ ] Environment vars w Pages dashboard:
@@ -543,6 +602,7 @@ export default defineType({
 **Pliki:** `_redirects` (Cloudflare), `.github/workflows/ci.yml` aktualizacja, webhook URL zapisany w Sanity studio.
 
 **Kryteria ukończenia:**
+
 - Strona dostępna pod `https://domena.tld/`, SSL ważny
 - Deploy trwa <3 min
 - PR otwarty → komentarz bota z linkiem do preview
@@ -560,6 +620,7 @@ export default defineType({
 **Cel:** Widać ruch, Google zna stronę, Core Web Vitals są mierzone.
 
 **Zadania:**
+
 - [ ] Cloudflare Web Analytics (darmowe) → snippet w `BaseLayout`
 - [ ] Google Search Console:
   - weryfikacja domeny przez DNS TXT (Cloudflare DNS, jeden klik)
@@ -574,6 +635,7 @@ export default defineType({
 **Pliki:** `src/layouts/BaseLayout.astro` (snippet analytics).
 
 **Kryteria ukończenia:**
+
 - Dashboard w Cloudflare pokazuje sesje
 - GSC ma zindeksowane strony (min. 1) po 1–3 dniach od zgłoszenia sitemap
 - UptimeRobot działa, wysyła alerty na email
@@ -587,6 +649,7 @@ export default defineType({
 ## Co z tym robić dalej
 
 Po Fazie 8 strona jest w produkcji. Kolejne możliwe iteracje (poza zakresem MVP):
+
 - **Newsletter** — hook architektoniczny już jest (patrz „Architecture hooks → Newsletter"). Włączenie = 1 sesja: dodać schema `subscriber` w Sanity, podpiąć Buttondown/Brevo API w `src/pages/api/subscribe.ts`, włączyć feature flag.
 - **Rozbudowany blog** z tagami, archiwum, RSS feed.
 - **Virtual studio tour** — galeria 360° albo embed wideo.

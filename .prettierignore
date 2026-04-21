@@ -1,0 +1,14 @@
+dist/
+.astro/
+.output/
+node_modules/
+packages/sanity/dist/
+.wrangler/
+pnpm-lock.yaml
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.webp
+*.ico
+*.svg

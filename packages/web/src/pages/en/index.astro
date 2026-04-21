@@ -1,0 +1,17 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { getSiteSettings, getSculptures } from "~/lib/content";
+const settings = await getSiteSettings();
+const sculptures = await getSculptures();
+---
+
+<BaseLayout title={`${settings.brandName} — home`}>
+  <main class="mx-auto max-w-5xl px-6 py-16">
+    <p class="text-eyebrow text-brand-accent uppercase">Phase 0 — scaffold</p>
+    <h1 class="font-display text-brand-text mt-4 text-5xl">{settings.brandName}</h1>
+    <p class="font-body text-brand-muted mt-4">
+      Content source: <code>{import.meta.env.PUBLIC_CONTENT_SOURCE ?? "fixtures"}</code>
+    </p>
+    <p class="font-body mt-2">Sculpture count (fixtures): {sculptures.length}</p>
+  </main>
+</BaseLayout>

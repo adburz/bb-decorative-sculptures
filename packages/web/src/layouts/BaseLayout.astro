@@ -1,0 +1,22 @@
+---
+import "../styles/globals.css";
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "Dekoracyjne Rzeźby BB — katalog rzeźb" } = Astro.props;
+const locale = Astro.currentLocale ?? "pl";
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,10 +1,11 @@
 # Design Analysis — Decorative Sculptures
 
-Analiza trzech makiet przygotowanych w Lovable (nazwa projektu w designie: *Atelier Mira*, demo). Treść i brand są przykładowe — w implementacji zostaną zastąpione przez **Dekoracyjne Rzeźby BB** (domena: `dekoracyjna-rzezba.pl`). Układ, typografia i paleta pozostają jako „design system" do odwzorowania.
+Analiza trzech makiet przygotowanych w Lovable (nazwa projektu w designie: _Atelier Mira_, demo). Treść i brand są przykładowe — w implementacji zostaną zastąpione przez **Dekoracyjne Rzeźby BB** (domena: `dekoracyjna-rzezba.pl`). Układ, typografia i paleta pozostają jako „design system" do odwzorowania.
 
 **Potwierdzone decyzje (2026-04-21):**
+
 - Brand: **Dekoracyjne Rzeźby BB**, domena: `dekoracyjna-rzezba.pl`
-- Fonty: para *serif display (Cormorant Garamond)* + *Inter sans* jako start; architektura pozwala na swap jednym commitem (patrz [IMPLEMENTATION_PLAN.md#faza-2](IMPLEMENTATION_PLAN.md))
+- Fonty: para _serif display (Cormorant Garamond)_ + _Inter sans_ jako start; architektura pozwala na swap jednym commitem (patrz [IMPLEMENTATION_PLAN.md#faza-2](IMPLEMENTATION_PLAN.md))
 - Language switcher: **PL / EN** w navbarze (decyzja zatwierdzona)
 - Filtry na Sculptures: **URL-driven** (SEO-friendly, szerowalne linki)
 - Formularz: **Web3Forms** (darmowy endpoint, ~250 req/mies — wystarczy)
@@ -12,6 +13,7 @@ Analiza trzech makiet przygotowanych w Lovable (nazwa projektu w designie: *Atel
 - Strona szczegółu rzeźby: dokomponowana przeze mnie (patrz nowa sekcja poniżej), bazująca na tym samym systemie typograficznym i palecie
 
 Pliki źródłowe:
+
 - [Home.pdf](../Photos/Web design/PDF/Home.pdf) + PNG: Home-1…Home-4
 - [Sculptures.pdf](../Photos/Web design/PDF/Sculptures.pdf) + PNG: Sculptures-1…Sculptures-3
 - [Contact.pdf](../Photos/Web design/PDF/Contact.pdf) + PNG: Contact-1, Contact-2
@@ -22,21 +24,22 @@ Pliki źródłowe:
 
 Odczyt wizualny — przed fazą implementacji należy dociągnąć wartości HEX z designu pipetką (np. w Figmie albo Preview.app → Digital Color Meter).
 
-| Rola                       | Orientacyjny HEX | Użycie                                                             |
-| -------------------------- | ---------------- | ------------------------------------------------------------------ |
-| `bg/base`                  | `#F5EFE6`        | tło strony (ciepła kość słoniowa / warm cream)                     |
-| `bg/panel`                 | `#EFE7DA`        | stopka, sekcja cytatu „About the studio" (delikatnie ciemniejsza)  |
-| `bg/hero`                  | `#1E1712`        | hero na Home (bardzo ciemny brąz / near-black, z grafiką na tle)   |
-| `text/primary`             | `#1E1E1C`        | body text, nagłówki                                                |
-| `text/muted`               | `#6B6A66`        | meta (materiał, wymiary, podpisy pod obrazkami)                    |
-| `accent/gold`              | `#B8956A`        | drugie słowo w logo („Mira"), eyebrow labels, link „Instagram →", „ASK ABOUT THIS PIECE" |
-| `button/primary`           | `#111111`        | przycisk główny (SEND, SEND MESSAGE, VIEW COLLECTION)              |
-| `button/primary-text`      | `#FFFFFF` / `#F5EFE6` | tekst w przycisku                                             |
-| `badge/available-bg`       | `#F5EFE6` @ 92%  | plakietka „AVAILABLE" na karcie rzeźby (półprzezroczysta, jasna)   |
-| `badge/sold-bg`            | `#E8E1D4` @ 92%  | plakietka „SOLD" (ta sama stylistyka, neutralny ton)               |
-| `border/subtle`            | `#E3DDD0`        | cienka linia pod nawigacją, separator stopki                       |
+| Rola                  | Orientacyjny HEX      | Użycie                                                                                   |
+| --------------------- | --------------------- | ---------------------------------------------------------------------------------------- |
+| `bg/base`             | `#F5EFE6`             | tło strony (ciepła kość słoniowa / warm cream)                                           |
+| `bg/panel`            | `#EFE7DA`             | stopka, sekcja cytatu „About the studio" (delikatnie ciemniejsza)                        |
+| `bg/hero`             | `#1E1712`             | hero na Home (bardzo ciemny brąz / near-black, z grafiką na tle)                         |
+| `text/primary`        | `#1E1E1C`             | body text, nagłówki                                                                      |
+| `text/muted`          | `#6B6A66`             | meta (materiał, wymiary, podpisy pod obrazkami)                                          |
+| `accent/gold`         | `#B8956A`             | drugie słowo w logo („Mira"), eyebrow labels, link „Instagram →", „ASK ABOUT THIS PIECE" |
+| `button/primary`      | `#111111`             | przycisk główny (SEND, SEND MESSAGE, VIEW COLLECTION)                                    |
+| `button/primary-text` | `#FFFFFF` / `#F5EFE6` | tekst w przycisku                                                                        |
+| `badge/available-bg`  | `#F5EFE6` @ 92%       | plakietka „AVAILABLE" na karcie rzeźby (półprzezroczysta, jasna)                         |
+| `badge/sold-bg`       | `#E8E1D4` @ 92%       | plakietka „SOLD" (ta sama stylistyka, neutralny ton)                                     |
+| `border/subtle`       | `#E3DDD0`             | cienka linia pod nawigacją, separator stopki                                             |
 
 Uwagi:
+
 - Paleta jest ciepła, „galeryjna" — w CSS warto ją zamknąć w customowych tokenach Tailwind (`theme.extend.colors.brand.*`), nie trzymać wartości hex w komponentach.
 - Sekcja hero na Home pokazuje ciemną wersję (dark-on-dark + grafika). Na pozostałych podstronach brak trybu dark — to nie jest dark mode strony, tylko dark hero.
 
@@ -88,6 +91,7 @@ Uwagi:
 5. **Footer** (wspólny — opis niżej)
 
 ### Komponenty wyodrębnione z Home
+
 - `<TopNav />`
 - `<Hero variant="dark" backgroundImage="…" eyebrow="…" title="…" lead="…" cta={{label, href}} />`
 - `<SectionHeading eyebrow title rightLink? />`
@@ -96,6 +100,7 @@ Uwagi:
 - `<SiteFooter />`
 
 ### Uwagi implementacyjne — Home
+
 - Hero ma ciemne tło z obrazem — obraz musi być optymalizowany (AVIF/WebP, responsive sizes, preload najmocniejszego breakpointa tylko na stronie głównej, bo to LCP).
 - CTA „VIEW COLLECTION" powinien mieć kontrast ≥ 4.5:1 (AA) na ciemnym tle — `bg/base` na `bg/hero` spełnia.
 - Sekcja quote to pojedynczy statyczny blok — niech treść przychodzi z Sanity (`siteSettings.aboutQuote` + `aboutBody` + `aboutAuthor`), żeby dało się edytować bez deployu.
@@ -124,6 +129,7 @@ Uwagi:
 5. **Footer**
 
 ### Karta rzeźby (`SculptureCard`)
+
 - obraz kwadratowy (aspect-ratio 1:1), `object-fit: cover`
 - nad obrazem, lewy górny róg: badge `AVAILABLE` lub `SOLD`
 - pod obrazem:
@@ -238,6 +244,7 @@ Makiety Lovable nie zawierają widoku „product detail", więc poniżej pełny 
 - Meta description: pierwszy akapit opisu, trimmed do 155 znaków
 
 ### Uwagi implementacyjne — Sculptures
+
 - Filtry: trzymać źródło prawdy w URL (lepsze dla SEO / share / back button).
 - Grid: `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12`.
 - Dla SEO — każdy szczegół rzeźby jako własna statyczna strona (`/pl/rzezby/[slug]` + `/en/sculptures/[slug]`), nie lazy-loaded modal.
@@ -264,10 +271,12 @@ Makiety Lovable nie zawierają widoku „product detail", więc poniżej pełny 
 4. **Footer**
 
 ### Komponenty
+
 - `<ContactInfoBlock label value />`
 - `<ContactForm />` (zod validation, honeypot, Turnstile, POST do Web3Forms/Resend)
 
 ### Uwagi
+
 - Pola oznaczone `*` są wymagane — zwalidować po stronie klienta (natywne `required`) i serwera (Web3Forms).
 - Po sukcesie → redirect na `/pl/kontakt/dziekujemy` (dedykowana strona „Thanks" — dobra pod GA conversion + Google Ads).
 - Formularz w stopce duplikuje się z formularzem na Contact — w kodzie to jeden komponent, dwa miejsca użycia.
@@ -277,11 +286,13 @@ Makiety Lovable nie zawierają widoku „product detail", więc poniżej pełny 
 ## Wspólne komponenty
 
 ### Nav (desktop + mobile)
+
 - Desktop: flex justify-between, logo left + linki right
 - Mobile: logo left + hamburger right → drawer z pełnoekranowym menu; przełącznik języka PL/EN w prawym górnym rogu drawer-a
 - **Language switcher:** w makiecie go NIE MA. Trzeba dodać — propozycja: `PL | EN` po prawej stronie przed linkami, albo jako element w mobile menu. Decyzja designerska wymagana.
 
 ### Footer
+
 - 3 kolumny (desktop) + pasek copyright:
   1. Brand: logo + krótki opis + email + tel + „Instagram →"
   2. Explore: Home · Sculptures for sale · Contact (+ prawdopodobnie „About" i „Journal/Blog" po rozbudowie)
@@ -290,10 +301,12 @@ Makiety Lovable nie zawierają widoku „product detail", więc poniżej pełny 
 - **Uwaga**: w implementacji dodać linki do polityki prywatności i regulaminu (RODO) — w makiecie ich brak, ale są wymagane prawnie dla formularza kontaktowego w UE.
 
 ### Przycisk primary
+
 - czarne tło, biały tekst, uppercase, tracking wide, padding `py-3.5 px-6` (approx.), bez border-radius albo bardzo mały (`rounded-none` lub `rounded-sm`).
 - hover: tło → 80% opacity lub przejście na `text/primary` → accent/gold.
 
 ### Badge (AVAILABLE / SOLD)
+
 - absolute top-3 left-3 nad obrazem karty
 - półprzezroczyste jasne tło + tekst uppercase, mały
 
@@ -309,6 +322,7 @@ Makiety pokazują **tylko desktop**. Mobile trzeba zaprojektować — proponowan
 - `xl` 1280 px: max-width kontenera (~1200 px) wycentrowany
 
 Uwagi mobile:
+
 - Hero: obraz staje się tłem 16:9, H1 zmniejszony do ~40 px
 - Filtry na Sculptures: zawijają się na 2 linie, scroll-snap-x w razie potrzeby
 - Footer: 1 kolumna, sekcje stackowane
@@ -321,6 +335,7 @@ Uwagi mobile:
 Wszystkie stringi z designów poniżej — muszą wejść do CMS (`siteSettings`) albo plików tłumaczeń i18n:
 
 **Home:**
+
 - Eyebrow hero: „ATELIER MIRA — EST. 2014" → „DEKORACYJNE RZEŹBY BB — OD {rok}" (PL) / „BB DECORATIVE SCULPTURES — SINCE {year}" (EN)
 - H1: „Unique decorative sculptures" → „Unikatowe rzeźby dekoracyjne"
 - Lead: „Hand-made works in bronze, stone, wood and ceramic — each piece signed, numbered, and sold directly from the studio." → „Prace wykonywane ręcznie z brązu, kamienia, drewna i ceramiki — każda sygnowana, numerowana i sprzedawana bezpośrednio z pracowni."
@@ -333,6 +348,7 @@ Wszystkie stringi z designów poniżej — muszą wejść do CMS (`siteSettings`
 - Quote i bio — do wpisania przez właściciela (PL+EN).
 
 **Sculptures:**
+
 - Eyebrow: „THE COLLECTION" → „KOLEKCJA"
 - „Sculptures for sale" → „Rzeźby na sprzedaż"
 - „{N} pieces — each unique, signed and ready to ship from {city}." → „{N} prac — każda unikatowa, sygnowana i gotowa do wysyłki z {miasto}."
@@ -344,6 +360,7 @@ Wszystkie stringi z designów poniżej — muszą wejść do CMS (`siteSettings`
 - „Price on request" → „Cena na zapytanie"
 
 **Contact:**
+
 - „GET IN TOUCH" → „KONTAKT"
 - „Contact the studio" → „Napisz do pracowni"
 - „For inquiries about…" → „W sprawie dostępnych prac, zamówień indywidualnych lub wizyty w pracowni…"
@@ -351,6 +368,7 @@ Wszystkie stringi z designów poniżej — muszą wejść do CMS (`siteSettings`
 - „YOUR NAME / EMAIL / SUBJECT / MESSAGE / SEND MESSAGE" → „IMIĘ / E-MAIL / TEMAT / WIADOMOŚĆ / WYŚLIJ"
 
 **Stopka:**
+
 - „Explore" → „Odkryj"
 - „Send a message" → „Napisz wiadomość"
 - „© {year} {BrandName}. All works are unique." — edycja w i18n.
@@ -366,7 +384,7 @@ Nadal otwarte:
 1. **Brand EN** — „Dekoracyjne Rzeźby BB" to polska nazwa. Jak mają wyglądać wersje EN:
    - Opcja A: **brand stays as-is w obu językach** (np. nazwa działa jak „IKEA" — nieprzetłumaczalna). W EN wyjaśnienie w lead: „BB Decorative Sculptures — hand-made…"
    - Opcja B: osobny wordmark EN, np. **„BB Decorative Sculptures"** albo **„BB Sculptures"**
-   Rekomendacja: **Opcja B** — dla rynku anglojęzycznego „Dekoracyjne Rzeźby BB" jest trudne do wymówienia. Potrzebne Twoje potwierdzenie nazwy EN.
+     Rekomendacja: **Opcja B** — dla rynku anglojęzycznego „Dekoracyjne Rzeźby BB" jest trudne do wymówienia. Potrzebne Twoje potwierdzenie nazwy EN.
 2. **Co oznacza BB?** Inicjały? (chcę wpisać do `schema.org/Person.name` w sekcji „O mnie"). Jeśli np. „Bartek Bogusz" — to idzie do meta. Jeśli nazwa firmy / pseudonim artystyczny — inaczej mapuję w Sanity.
 3. **Strona potwierdzenia formularza** — prosta „Dziękujemy, odpowiem w 48h" spójna z resztą designu (center, eyebrow, H1, link „← wróć do kolekcji"). Akceptujesz, czy dopracujesz później?
 4. **Mobile design** — brak w makietach. Proponuję: implementuję „po programistycznym domyśle" wg zasad z sekcji „Responsywność", potem wspólnie iterujemy w przeglądarce. OK?

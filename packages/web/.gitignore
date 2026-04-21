@@ -1,0 +1,9 @@
+.astro/
+dist/
+node_modules/
+.env
+.env.local
+.env.*.local
+!.env.example
+.wrangler/
+.output/

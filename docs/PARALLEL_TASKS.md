@@ -1,6 +1,7 @@
 # Parallel Tasks — zadania poza kodem (dla właściciela projektu)
 
 Lista zadań, które musisz zrobić ręcznie (konta, domena, treści), równolegle do implementacji. Każde zadanie ma:
+
 - **Co** — konkretne kroki
 - **Gdzie** — linki
 - **Kiedy** — przed którą fazą z [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md)
@@ -25,12 +26,12 @@ Posortowane od najważniejszych (blokujących najwcześniejsze fazy) do najpóź
 
 Domena `.pl` wymaga rejestratora polskiego lub zagranicznego wspierającego `.pl`. Opcje:
 
-| Rejestrator | Cena 1. rok | Cena odnowienia | UX | Uwagi |
-| --- | --- | --- | --- | --- |
-| **[Porkbun](https://porkbun.com/)** | ~$9 | ~$22 | świetny, zero upsell | Best-in-class; FV angielska, można rozliczyć jako koszt |
-| **[nazwa.pl](https://www.nazwa.pl/)** | ~10 zł | ~89 zł | agresywny upsell | Faktura VAT PL; uważaj na „dodatkowe usługi" w checkout |
-| **[home.pl](https://home.pl/)** | ~15 zł | ~99 zł | podobnie | j.w. |
-| **[OVH.pl](https://www.ovh.pl/domeny/)** | ~30 zł | ~60 zł | techniczny, mało upsell | Dobry dla developerów |
+| Rejestrator                              | Cena 1. rok | Cena odnowienia | UX                      | Uwagi                                                   |
+| ---------------------------------------- | ----------- | --------------- | ----------------------- | ------------------------------------------------------- |
+| **[Porkbun](https://porkbun.com/)**      | ~$9         | ~$22            | świetny, zero upsell    | Best-in-class; FV angielska, można rozliczyć jako koszt |
+| **[nazwa.pl](https://www.nazwa.pl/)**    | ~10 zł      | ~89 zł          | agresywny upsell        | Faktura VAT PL; uważaj na „dodatkowe usługi" w checkout |
+| **[home.pl](https://home.pl/)**          | ~15 zł      | ~99 zł          | podobnie                | j.w.                                                    |
+| **[OVH.pl](https://www.ovh.pl/domeny/)** | ~30 zł      | ~60 zł          | techniczny, mało upsell | Dobry dla developerów                                   |
 
 **Rekomendacja:** **Porkbun** jeśli nie potrzebujesz FV VAT PL (np. fakturujesz się jako osoba fizyczna), **OVH.pl** albo **nazwa.pl** jeśli potrzebujesz polskiej FV.
 
@@ -46,6 +47,7 @@ Domena `.pl` wymaga rejestratora polskiego lub zagranicznego wspierającego `.pl
 ### Socialmedia handle
 
 Sprawdź zajętość `@dekoracyjnarzezbabb` lub `@dekoracyjne.rzezby.bb` na:
+
 - [Instagram](https://instagram.com) (najważniejsze — link w nav i footer)
 - [Namecheckr](https://www.namecheckr.com/) (skrót po innych platformach jednym zapytaniem)
 
@@ -149,6 +151,7 @@ Jeśli dany handle zajęty — wymyśl wariant (`_bb`, `.studio` na końcu itp.)
 ### Cloudflare Turnstile (anti-spam) — uwaga: robi się w kroku #4
 
 W kroku #4 (Cloudflare setup) zakładamy Turnstile i notujemy:
+
 - **Site Key** (public, idzie do `PUBLIC_TURNSTILE_SITE_KEY` w .env)
 - **Secret Key** (server-side, idzie do `TURNSTILE_SECRET_KEY`)
 
@@ -182,12 +185,12 @@ Te klucze są potrzebne w Fazie 5.
 
 **Opcje:**
 
-| Opcja | Koszt | Cookies | Banner RODO? | Jakość danych |
-| --- | --- | --- | --- | --- |
-| **Cloudflare Web Analytics** | darmowe | brak | nie | podstawowa (pageviews, Core Web Vitals) |
-| **Umami Cloud** | darmowe do 10k events/mies | brak | nie | dobra (events, countries, devices) |
-| **Plausible Cloud** | ~9 €/mies (≈40 zł) | brak | nie | najlepsza z bezcookie |
-| **GA4** | darmowe | tak | tak, wymagany | najpełniejsze dane, ale kompleksowe UI |
+| Opcja                        | Koszt                      | Cookies | Banner RODO?  | Jakość danych                           |
+| ---------------------------- | -------------------------- | ------- | ------------- | --------------------------------------- |
+| **Cloudflare Web Analytics** | darmowe                    | brak    | nie           | podstawowa (pageviews, Core Web Vitals) |
+| **Umami Cloud**              | darmowe do 10k events/mies | brak    | nie           | dobra (events, countries, devices)      |
+| **Plausible Cloud**          | ~9 €/mies (≈40 zł)         | brak    | nie           | najlepsza z bezcookie                   |
+| **GA4**                      | darmowe                    | tak     | tak, wymagany | najpełniejsze dane, ale kompleksowe UI  |
 
 **Rekomendacja** (przy budżecie ~20 zł/mies): **Cloudflare Web Analytics** na start. Jeśli będziesz chciał więcej danych po pierwszym miesiącu — przesiądź się na Umami.
 
@@ -227,6 +230,7 @@ Te klucze są potrzebne w Fazie 5.
 ### 8c. Pierwsze 3–5 rzeźb do seedowania
 
 Dla każdej rzeźby potrzeba:
+
 - **Zdjęcia:** 3–8 ujęć, każde ≥2000 px na dłuższym boku, format RAW/JPG, neutralne tło albo scena ekspozycji
 - **Tytuł** (PL + EN)
 - **Materiał** (jedna z: brąz, kamień, drewno, ceramika — rozszerzalne)
@@ -239,6 +243,7 @@ Dla każdej rzeźby potrzeba:
 - **Edycja** (unique / 1 of 3 / itp.)
 
 **Wskazówka fotograficzna dla Google Images:**
+
 - Nazwy plików opisowe, np. `silent-dawn-bronze-sculpture-45cm-01.jpg` zamiast `IMG_1234.jpg` (nazwę pliku zostawi Sanity CDN — ale alt ma być opisowy)
 - W Sanity w polu `alt` pisać pełnym zdaniem: „Rzeźba z brązu Silent Dawn, 45 × 30 × 22 cm, widok z frontu"
 
@@ -254,6 +259,7 @@ Dla każdej rzeźby potrzeba:
 - **Regulamin** — ewentualnie stub; jeśli sprzedaż jest „pozaserwisowa" (e-mail + rozmowa), regulamin strony internetowej może być krótki (nic tu nie sprzedajemy bezpośrednio)
 
 **Opcje generowania:**
+
 1. **Darmowy szablon z GIODO/UODO** — bezpieczny, ale nudny. Google „polityka prywatności wzór RODO formularz kontaktowy"
 2. **[iubenda](https://www.iubenda.com/)** — generator, darmowy plan pokrywa proste strony, płatny ~30 €/rok za pełny zakres. Używany przez wielu.
 3. **[termly.io](https://termly.io/)** — podobnie.
@@ -274,11 +280,13 @@ Dla każdej rzeźby potrzeba:
 ### Kroki
 
 Obejmuje krok #4.6 powyżej. Minimum:
+
 - `kontakt@dekoracyjna-rzezba.pl` → forward na `twoj-prywatny@gmail.com`
 
 Web3Forms wysyła z `noreply@web3forms.com` (tego nie zmieniamy), a odpowiedź klientowi wychodzi z Twojej prywatnej skrzynki Gmail (bo to tam dostajesz forward).
 
 **Opcjonalnie — wysyłanie z `kontakt@dekoracyjna-rzezba.pl`:**
+
 - W Gmailu: **Settings** → **Accounts** → **Send mail as** → **Add another email** → `kontakt@dekoracyjna-rzezba.pl`
 - Jako SMTP relay: **[ZohoMail](https://www.zoho.com/mail/)** darmowy plan (1 użytkownik, 5 GB, własna domena) albo **ImprovMX** (tylko forwarding) albo **[Purelymail](https://purelymail.com/)** (~$10/rok)
 - Po konfiguracji: odpowiadasz w Gmailu, ale klient widzi `kontakt@dekoracyjna-rzezba.pl` w „From"
@@ -306,6 +314,7 @@ Web3Forms wysyła z `noreply@web3forms.com` (tego nie zmieniamy), a odpowiedź k
   - `og-default.jpg` (1200×630, logo + brand kolor — fallback dla Open Graph)
 
 **Narzędzia:**
+
 - [Figma](https://www.figma.com/) (darmowe) — jeśli komfortowo
 - [realfavicongenerator.net](https://realfavicongenerator.net/) — wgrywasz SVG, generuje wszystkie formaty
 
@@ -315,21 +324,21 @@ Web3Forms wysyła z `noreply@web3forms.com` (tego nie zmieniamy), a odpowiedź k
 
 ## Podsumowanie — kolejność i deadline
 
-| # | Zadanie | Deadline (faza) | Czas |
-| --- | --- | --- | --- |
-| 1 | Domena `dekoracyjna-rzezba.pl` | **TERAZ** (propagacja DNS) | 15 min + ~3 h propagacja |
-| 2 | GitHub repo | Faza 0 | 10 min |
-| 3 | Sanity projekt | Faza 1 | 15 min |
-| 8a | Biografia PL+EN + brand EN (BB Decorative Sculptures?) | Faza 1 | 2–4 h |
-| 8c (×3) | Pierwsze 3 rzeźby (zdjęcia + opisy) | Faza 1 | 1–2 dni |
-| 4 | Cloudflare account + DNS + Turnstile keys | Faza 4/5 | 20 min |
-| 8b | Copy hero + quote | Faza 4 | 1 h |
-| 10 | Favicon + OG image + symbol BB | Faza 4 | 1–3 h |
-| 5 | Web3Forms access key | Faza 5 | 3 min |
-| 9 | Email routing (`kontakt@dekoracyjna-rzezba.pl`) | Faza 5 | 5 min |
-| 8d | Polityka prywatności | Faza 5 (przed produkcją) | 1–2 h |
-| 6 | Google Search Console | Faza 8 | 15 min |
-| 7 | Analytics (rekomendacja: Cloudflare Web Analytics) | Faza 8 | 5 min |
+| #       | Zadanie                                                | Deadline (faza)            | Czas                     |
+| ------- | ------------------------------------------------------ | -------------------------- | ------------------------ |
+| 1       | Domena `dekoracyjna-rzezba.pl`                         | **TERAZ** (propagacja DNS) | 15 min + ~3 h propagacja |
+| 2       | GitHub repo                                            | Faza 0                     | 10 min                   |
+| 3       | Sanity projekt                                         | Faza 1                     | 15 min                   |
+| 8a      | Biografia PL+EN + brand EN (BB Decorative Sculptures?) | Faza 1                     | 2–4 h                    |
+| 8c (×3) | Pierwsze 3 rzeźby (zdjęcia + opisy)                    | Faza 1                     | 1–2 dni                  |
+| 4       | Cloudflare account + DNS + Turnstile keys              | Faza 4/5                   | 20 min                   |
+| 8b      | Copy hero + quote                                      | Faza 4                     | 1 h                      |
+| 10      | Favicon + OG image + symbol BB                         | Faza 4                     | 1–3 h                    |
+| 5       | Web3Forms access key                                   | Faza 5                     | 3 min                    |
+| 9       | Email routing (`kontakt@dekoracyjna-rzezba.pl`)        | Faza 5                     | 5 min                    |
+| 8d      | Polityka prywatności                                   | Faza 5 (przed produkcją)   | 1–2 h                    |
+| 6       | Google Search Console                                  | Faza 8                     | 15 min                   |
+| 7       | Analytics (rekomendacja: Cloudflare Web Analytics)     | Faza 8                     | 5 min                    |
 
 **Szacowany budżet:** ~10–30 zł/rok (pierwszy rok domeny .pl) + 60–90 zł/rok (kolejne lata) + 0 zł wszystko inne = **~5–8 zł/mies amortyzacji** → ✅ mieści się w „do 20 zł/mies".
 
