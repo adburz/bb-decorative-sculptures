@@ -38,3 +38,6 @@ jobs:
           PUBLIC_CONTENT_SOURCE: fixtures
           PUBLIC_SITE_URL: https://dekoracyjna-rzezba.pl
         run: pnpm build:web
+
+      - name: Build Sanity Studio
+        run: pnpm build:sanity

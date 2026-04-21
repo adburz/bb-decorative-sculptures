@@ -2,7 +2,6 @@
   "name": "bb-decorative-sculptures",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "description": "Dekoracyjne Rzeźby BB — bilingual sculpture catalog",
   "engines": {
     "node": ">=20",
@@ -45,5 +44,10 @@
     "*.{json,md,yml,yaml,css}": [
       "prettier --write"
     ]
+  },
+  "pnpm": {
+    "overrides": {
+      "yargs": "^18.0.0"
+    }
   }
 }
