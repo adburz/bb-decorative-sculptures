@@ -1,0 +1,48 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  type?: "text" | "email" | "tel" | "url";
+  value?: string;
+  placeholder?: string;
+  required?: boolean;
+  autocomplete?: string;
+  class?: string;
+}
+
+const {
+  id,
+  name,
+  label,
+  type = "text",
+  value,
+  placeholder,
+  required = false,
+  autocomplete,
+  class: className = "",
+} = Astro.props;
+---
+
+<div class={`flex flex-col gap-2 ${className}`}>
+  <label for={id} class="text-eyebrow text-brand-muted uppercase">
+    {label}
+    {
+      required && (
+        <span class="text-brand-accent" aria-hidden="true">
+          *
+        </span>
+      )
+    }
+  </label>
+  <input
+    id={id}
+    name={name}
+    type={type}
+    value={value}
+    placeholder={placeholder}
+    required={required}
+    autocomplete={autocomplete}
+    class="font-body text-brand-text border-brand-border focus:border-brand-text placeholder:text-brand-muted/60 border-b bg-transparent px-0 py-2 text-base outline-none transition-colors"
+  />
+</div>

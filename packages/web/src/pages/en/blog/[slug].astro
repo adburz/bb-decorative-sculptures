@@ -1,0 +1,45 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import PostArticle from "~/components/blog/PostArticle.astro";
+import { getPosts, getSiteSettings } from "~/lib/content";
+import { articleLd } from "~/lib/seo/jsonld";
+import type { Post } from "~/lib/content/types";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug.en },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const settings = await getSiteSettings();
+const siteUrl = Astro.site ?? new URL("https://dekoracyjna-rzezba.pl");
+
+const title = post.seo?.title?.en ?? post.title.en;
+const description = post.seo?.description?.en ?? post.excerpt.en;
+
+const alternates = {
+  pl: `/pl/blog/${post.slug.pl}/`,
+  en: `/en/blog/${post.slug.en}/`,
+};
+
+const jsonLd = articleLd(post, "en", settings, siteUrl);
+---
+
+<BaseLayout
+  title={`${title} — ${settings.brandName}`}
+  description={description}
+  ogImage={post.coverImage?.url}
+  ogType="article"
+  alternates={alternates}
+>
+  <PostArticle post={post} locale="en" />
+
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+</BaseLayout>

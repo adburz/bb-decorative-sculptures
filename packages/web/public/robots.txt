@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_dev/
+
+Sitemap: https://dekoracyjna-rzezba.pl/sitemap-index.xml
+Sitemap: https://dekoracyjna-rzezba.pl/sitemap-sculptures.xml
+Sitemap: https://dekoracyjna-rzezba.pl/sitemap-posts.xml

@@ -1,0 +1,58 @@
+---
+import Button from "~/components/primitives/Button.astro";
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  cta: { label: string; href: string };
+  backgroundImage?: string;
+  variant?: "dark" | "light";
+}
+
+const { eyebrow, title, lead, cta, backgroundImage, variant = "dark" } = Astro.props;
+
+const isDark = variant === "dark";
+const bgClass = isDark ? "bg-brand-hero text-brand-bg" : "bg-brand-bg text-brand-text";
+const eyebrowClass = isDark ? "text-brand-accent" : "text-brand-accent";
+const leadClass = isDark ? "text-brand-bg/80" : "text-brand-muted";
+---
+
+<section class={`relative overflow-hidden ${bgClass}`}>
+  {
+    backgroundImage && (
+      <div
+        class="absolute inset-0 bg-cover bg-center opacity-40"
+        style={`background-image: url('${backgroundImage}')`}
+        aria-hidden="true"
+      />
+    )
+  }
+  {
+    isDark && (
+      <div
+        class="from-brand-hero/90 via-brand-hero/60 to-brand-hero/20 absolute inset-0 bg-gradient-to-r"
+        aria-hidden="true"
+      />
+    )
+  }
+
+  <div
+    class="relative mx-auto flex min-h-[70vh] max-w-6xl flex-col justify-center gap-6 px-6 py-24 md:min-h-[80vh]"
+  >
+    <p class={`text-eyebrow font-body uppercase ${eyebrowClass}`}>{eyebrow}</p>
+    <h1 class="font-display max-w-3xl text-4xl leading-[1.05] md:text-5xl lg:text-6xl">
+      {title}
+    </h1>
+    <p class={`font-body max-w-xl text-base leading-relaxed md:text-lg ${leadClass}`}>{lead}</p>
+    <div class="mt-4">
+      <Button
+        href={cta.href}
+        variant={isDark ? "primary" : "primary"}
+        class={isDark ? "bg-brand-bg text-brand-text hover:bg-brand-bg/90" : ""}
+      >
+        {cta.label}
+      </Button>
+    </div>
+  </div>
+</section>

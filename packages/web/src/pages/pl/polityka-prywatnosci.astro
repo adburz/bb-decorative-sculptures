@@ -1,0 +1,16 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { getSiteSettings } from "~/lib/content";
+import { t } from "~/lib/i18n";
+
+const settings = await getSiteSettings();
+const title = t("pl", "legal.privacy.title");
+const body = t("pl", "legal.privacy.body");
+---
+
+<BaseLayout title={`${title} — ${settings.brandName}`} description={body}>
+  <main id="main" class="mx-auto max-w-3xl px-6 py-20">
+    <h1 class="font-display text-brand-text text-4xl md:text-5xl">{title}</h1>
+    <p class="font-body text-brand-text mt-6 text-base leading-relaxed">{body}</p>
+  </main>
+</BaseLayout>

@@ -1,0 +1,103 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import Button from "~/components/primitives/Button.astro";
+import Badge from "~/components/primitives/Badge.astro";
+import Input from "~/components/primitives/Input.astro";
+import Textarea from "~/components/primitives/Textarea.astro";
+import SectionHeading from "~/components/primitives/SectionHeading.astro";
+import SculptureCard from "~/components/sculpture/SculptureCard.astro";
+import Hero from "~/components/home/Hero.astro";
+import QuoteSection from "~/components/home/QuoteSection.astro";
+import FilterBar from "~/components/sculptures/FilterBar.astro";
+import { getSculptures } from "~/lib/content";
+
+const locale = "pl";
+const sculptures = await getSculptures();
+---
+
+<BaseLayout title="Components — dev gallery" description="Dev-only component reference.">
+  <main id="main" class="mx-auto max-w-6xl px-6 py-16">
+    <SectionHeading eyebrow="DEV" title="Component gallery" class="mb-12" />
+
+    <section class="mb-16 flex flex-col gap-4">
+      <h2 class="font-display text-brand-text text-2xl">Buttons</h2>
+      <div class="flex flex-wrap items-center gap-4">
+        <Button>Primary</Button>
+        <Button variant="ghost">Ghost</Button>
+        <Button disabled>Disabled</Button>
+        <Button href="#">As link</Button>
+      </div>
+    </section>
+
+    <section class="mb-16 flex flex-col gap-4">
+      <h2 class="font-display text-brand-text text-2xl">Badges</h2>
+      <div class="flex flex-wrap items-center gap-4">
+        <Badge status="available" locale={locale} />
+        <Badge status="sold" locale={locale} />
+        <Badge status="reserved" locale={locale} />
+      </div>
+    </section>
+
+    <section class="mb-16 flex flex-col gap-4">
+      <h2 class="font-display text-brand-text text-2xl">Inputs</h2>
+      <form class="grid max-w-lg gap-6">
+        <Input id="demo-name" name="name" label="Your name" required />
+        <Input id="demo-email" name="email" type="email" label="Email" required />
+        <Textarea id="demo-msg" name="message" label="Message" required rows={4} />
+        <Button type="submit">Send</Button>
+      </form>
+    </section>
+
+    <section class="mb-16 flex flex-col gap-6">
+      <SectionHeading
+        eyebrow="SELECTED WORKS"
+        title="Section heading with right link"
+        rightLink={{ label: "See all →", href: "#" }}
+      />
+      <p class="font-body text-brand-muted">Base eyebrow + title + rightLink pattern.</p>
+    </section>
+
+    <section class="mb-16">
+      <h2 class="font-display text-brand-text mb-6 text-2xl">Sculpture cards</h2>
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {sculptures.map((s) => <SculptureCard sculpture={s} locale={locale} showAskLink />)}
+      </div>
+    </section>
+
+    <section class="mb-16">
+      <h2 class="font-display text-brand-text mb-6 text-2xl">Hero (dark)</h2>
+      <Hero
+        eyebrow="DEKORACYJNE RZEŹBY BB"
+        title="Unikatowe rzeźby dekoracyjne"
+        lead="Prace wykonywane ręcznie z brązu, kamienia, drewna i ceramiki."
+        cta={{ label: "ZOBACZ KOLEKCJĘ", href: "/pl/rzezby/" }}
+      />
+    </section>
+
+    <section class="mb-16">
+      <h2 class="font-display text-brand-text mb-6 text-2xl">Quote section</h2>
+      <QuoteSection
+        eyebrow="O PRACOWNI"
+        quote="Rzeźba nie jest celem, jest rozmową z materią."
+        body="Pracuję powoli. Każda forma dojrzewa w dłoni, zanim zastygnie w materiale."
+        authorLine="Bogumił B., założyciel"
+      />
+    </section>
+
+    <section class="mb-16">
+      <h2 class="font-display text-brand-text mb-6 text-2xl">Filter bar</h2>
+      <FilterBar
+        locale={locale}
+        basePath="/pl/rzezby/"
+        currentMaterial="bronze"
+        currentStatus="available"
+        materials={[
+          { value: "bronze", label: "BRĄZ" },
+          { value: "marble", label: "KAMIEŃ" },
+          { value: "wood", label: "DREWNO" },
+          { value: "ceramic", label: "CERAMIKA" },
+        ]}
+      />
+    </section>
+  </main>
+</BaseLayout>

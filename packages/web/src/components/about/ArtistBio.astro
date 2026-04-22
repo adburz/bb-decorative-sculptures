@@ -1,0 +1,60 @@
+---
+import type { ArtistPage, SiteSettings } from "~/lib/content/types";
+import { t, type Locale } from "~/lib/i18n";
+import { resolveAlt } from "~/lib/image";
+
+interface Props {
+  artist: ArtistPage;
+  settings: SiteSettings;
+  locale: Locale;
+}
+
+const { artist, settings, locale } = Astro.props;
+const bio = artist.bio[locale];
+const quote = artist.quote[locale];
+const portraitAlt = artist.portrait
+  ? resolveAlt(artist.portrait, locale, settings.brandName)
+  : settings.brandName;
+---
+
+<main id="main" class="mx-auto max-w-5xl px-6 py-20">
+  <header class="mb-12 flex flex-col gap-3">
+    <p class="text-eyebrow font-body text-brand-accent uppercase">
+      {t(locale, "about.eyebrow")}
+    </p>
+    <h1 class="font-display text-brand-text text-4xl md:text-5xl">
+      {t(locale, "about.title")}
+    </h1>
+  </header>
+
+  <div class="grid gap-12 md:grid-cols-5">
+    {
+      artist.portrait && (
+        <div class="md:col-span-2">
+          <div class="bg-brand-panel aspect-[4/5] overflow-hidden">
+            <img
+              src={artist.portrait.url}
+              alt={portraitAlt}
+              width={artist.portrait.width ?? 1200}
+              height={artist.portrait.height ?? 1500}
+              loading="eager"
+              decoding="async"
+              class="h-full w-full object-cover"
+            />
+          </div>
+        </div>
+      )
+    }
+
+    <div class={`flex flex-col gap-8 ${artist.portrait ? "md:col-span-3" : "md:col-span-5"}`}>
+      <blockquote class="border-brand-accent border-l-2 pl-6">
+        <p class="font-display text-brand-text text-2xl italic leading-snug md:text-3xl">
+          &ldquo;{quote}&rdquo;
+        </p>
+      </blockquote>
+      <div class="font-body text-brand-text whitespace-pre-line text-base leading-relaxed">
+        {bio}
+      </div>
+    </div>
+  </div>
+</main>

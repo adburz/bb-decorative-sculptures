@@ -1,0 +1,25 @@
+---
+interface Props {
+  eyebrow: string;
+  quote: string;
+  body?: string;
+  authorLine?: string;
+}
+
+const { eyebrow, quote, body, authorLine } = Astro.props;
+---
+
+<section class="bg-brand-panel">
+  <div class="mx-auto flex max-w-3xl flex-col gap-6 px-6 py-20 text-center md:py-24">
+    <p class="text-eyebrow text-brand-accent font-body uppercase">{eyebrow}</p>
+    <blockquote class="font-display text-brand-text text-2xl italic leading-snug md:text-3xl">
+      “{quote}”
+    </blockquote>
+    {
+      body && (
+        <p class="font-body text-brand-muted mx-auto max-w-2xl text-base leading-relaxed">{body}</p>
+      )
+    }
+    {authorLine && <p class="text-eyebrow text-brand-muted font-body uppercase">— {authorLine}</p>}
+  </div>
+</section>

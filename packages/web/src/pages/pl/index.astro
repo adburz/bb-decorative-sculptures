@@ -1,17 +1,47 @@
 ---
 import BaseLayout from "~/layouts/BaseLayout.astro";
-import { getSiteSettings, getSculptures } from "~/lib/content";
+import Hero from "~/components/home/Hero.astro";
+import SectionHeading from "~/components/primitives/SectionHeading.astro";
+import SculptureCard from "~/components/sculpture/SculptureCard.astro";
+import QuoteSection from "~/components/home/QuoteSection.astro";
+import { getSiteSettings, getSculptures, getArtistPage } from "~/lib/content";
+import { t } from "~/lib/i18n";
+
 const settings = await getSiteSettings();
 const sculptures = await getSculptures();
+const artist = await getArtistPage();
+const featured = sculptures.slice(0, 3);
 ---
 
-<BaseLayout title={`${settings.brandName} — strona główna`}>
-  <main class="mx-auto max-w-5xl px-6 py-16">
-    <p class="text-eyebrow text-brand-accent uppercase">Phase 0 — scaffold</p>
-    <h1 class="font-display text-brand-text mt-4 text-5xl">{settings.brandName}</h1>
-    <p class="font-body text-brand-muted mt-4">
-      Content source: <code>{import.meta.env.PUBLIC_CONTENT_SOURCE ?? "fixtures"}</code>
-    </p>
-    <p class="font-body mt-2">Liczba rzeźb (fixtures): {sculptures.length}</p>
+<BaseLayout
+  title={`${settings.brandName} — ${t("pl", "home.title")}`}
+  description={settings.tagline.pl}
+>
+  <main id="main">
+    <Hero
+      eyebrow={t("pl", "home.eyebrow")}
+      title={t("pl", "home.title")}
+      lead={t("pl", "home.lead")}
+      cta={{ label: t("pl", "home.cta"), href: "/pl/rzezby/" }}
+    />
+
+    <section class="mx-auto max-w-6xl px-6 py-20">
+      <SectionHeading
+        eyebrow={t("pl", "home.featured.eyebrow")}
+        title={t("pl", "home.featured.title")}
+        rightLink={{ label: t("pl", "home.featured.seeAll"), href: "/pl/rzezby/" }}
+        class="mb-12"
+      />
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {featured.map((s) => <SculptureCard sculpture={s} locale="pl" showAskLink />)}
+      </div>
+    </section>
+
+    <QuoteSection
+      eyebrow={t("pl", "home.about.eyebrow")}
+      quote={artist.quote.pl}
+      body={artist.bio.pl}
+      authorLine={`${settings.brandName}, ${t("pl", "home.about.signatureLabel")}`}
+    />
   </main>
 </BaseLayout>

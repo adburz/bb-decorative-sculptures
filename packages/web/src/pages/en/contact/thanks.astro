@@ -1,0 +1,26 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { getSiteSettings } from "~/lib/content";
+import { t } from "~/lib/i18n";
+
+const settings = await getSiteSettings();
+const title = t("en", "form.successTitle");
+const body = t("en", "form.successBody");
+---
+
+<BaseLayout title={`${title} — ${settings.brandName}`} description={body}>
+  <main
+    id="main"
+    class="mx-auto flex min-h-[60vh] max-w-2xl flex-col items-start justify-center gap-6 px-6 py-20"
+  >
+    <p class="text-eyebrow font-body text-brand-accent uppercase">{t("en", "contact.eyebrow")}</p>
+    <h1 class="font-display text-brand-text text-4xl md:text-5xl">{title}</h1>
+    <p class="font-body text-brand-muted max-w-xl text-base leading-relaxed">{body}</p>
+    <a
+      href="/en/sculptures/"
+      class="text-eyebrow font-body text-brand-text hover:text-brand-accent mt-4 uppercase transition-colors"
+    >
+      {t("en", "form.successBack")}
+    </a>
+  </main>
+</BaseLayout>

@@ -1,0 +1,99 @@
+---
+import { t, type Locale } from "~/lib/i18n";
+
+interface FilterOption {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  locale: Locale;
+  basePath: string;
+  currentMaterial?: string;
+  currentStatus?: string;
+  materials: FilterOption[];
+}
+
+const { locale, basePath, currentMaterial = "all", currentStatus = "all", materials } = Astro.props;
+
+const statuses: FilterOption[] = [
+  { value: "all", label: t(locale, "filters.all") },
+  { value: "available", label: t(locale, "status.available") },
+  { value: "sold", label: t(locale, "status.sold") },
+];
+
+const materialOptions: FilterOption[] = [
+  { value: "all", label: t(locale, "filters.all") },
+  ...materials,
+];
+
+const buildHref = (group: "material" | "status", nextValue: string): string => {
+  const params = new URLSearchParams();
+  const nextMaterial = group === "material" ? nextValue : currentMaterial;
+  const nextStatus = group === "status" ? nextValue : currentStatus;
+  if (nextMaterial !== "all") params.set("material", nextMaterial);
+  if (nextStatus !== "all") params.set("status", nextStatus);
+  const qs = params.toString();
+  return qs ? `${basePath}?${qs}` : basePath;
+};
+---
+
+<section
+  aria-label={`${t(locale, "filters.material")} / ${t(locale, "filters.status")}`}
+  class="border-brand-border flex flex-col gap-6 border-y py-6"
+>
+  <div class="flex flex-wrap items-center gap-3">
+    <p class="text-eyebrow text-brand-muted font-body mr-2 uppercase">
+      {t(locale, "filters.material")}
+    </p>
+    {
+      materialOptions.map((opt) => (
+        <a
+          href={buildHref("material", opt.value)}
+          data-filter-pill
+          data-filter-group="material"
+          data-filter-value={opt.value}
+          aria-current={opt.value === currentMaterial ? "true" : "false"}
+          class="filter-pill font-body border px-4 py-2 text-[12px] uppercase tracking-[0.15em] transition-colors"
+        >
+          {opt.label}
+        </a>
+      ))
+    }
+  </div>
+
+  <div class="flex flex-wrap items-center gap-3">
+    <p class="text-eyebrow text-brand-muted font-body mr-2 uppercase">
+      {t(locale, "filters.status")}
+    </p>
+    {
+      statuses.map((opt) => (
+        <a
+          href={buildHref("status", opt.value)}
+          data-filter-pill
+          data-filter-group="status"
+          data-filter-value={opt.value}
+          aria-current={opt.value === currentStatus ? "true" : "false"}
+          class="filter-pill font-body border px-4 py-2 text-[12px] uppercase tracking-[0.15em] transition-colors"
+        >
+          {opt.label}
+        </a>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .filter-pill[aria-current="true"] {
+    background-color: #111111;
+    border-color: #111111;
+    color: #ffffff;
+  }
+  .filter-pill[aria-current="false"] {
+    border-color: #e3ddd0;
+    color: #1e1e1c;
+  }
+  .filter-pill[aria-current="false"]:hover {
+    border-color: #1e1e1c;
+  }
+</style>

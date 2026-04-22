@@ -1,6 +1,99 @@
 {
+  "a11y.skipToContent": "Skip to content",
+
   "nav.home": "Home",
   "nav.sculptures": "Sculptures",
   "nav.about": "About",
-  "nav.contact": "Contact"
+  "nav.contact": "Contact",
+  "nav.blog": "Journal",
+  "nav.openMenu": "Open menu",
+  "nav.closeMenu": "Close menu",
+
+  "language.pl": "PL",
+  "language.en": "EN",
+  "language.switchTo": "Switch language to {lang}",
+
+  "home.eyebrow": "SCULPTURE — KATOWICE STUDIO",
+  "home.title": "Sculpture in bronze and resin",
+  "home.lead": "Bronze castings and forms in resin and synthetic polymers — each piece signed, numbered, and sold directly from the Katowice studio.",
+  "home.cta": "VIEW COLLECTION",
+
+  "home.featured.eyebrow": "SELECTED WORKS",
+  "home.featured.title": "Featured sculptures",
+  "home.featured.seeAll": "SEE ALL →",
+
+  "home.about.eyebrow": "ABOUT THE STUDIO",
+  "home.about.signatureLabel": "founder",
+
+  "card.askAboutPiece": "ASK ABOUT THIS PIECE",
+  "card.priceOnRequest": "Price on request",
+  "card.viewDetails": "View details",
+
+  "status.available": "AVAILABLE",
+  "status.sold": "SOLD",
+  "status.reserved": "RESERVED",
+
+  "sculptures.eyebrow": "THE COLLECTION",
+  "sculptures.title": "Sculptures for sale",
+  "sculptures.leadTemplate": "{count} pieces — each unique, signed and ready to ship from {city}.",
+  "sculptures.empty": "No sculptures match these filters.",
+  "sculptures.backToList": "← Back to the collection",
+
+  "sculpture.details": "DETAILS",
+  "sculpture.material": "MATERIAL",
+  "sculpture.dimensions": "DIMENSIONS",
+  "sculpture.price": "PRICE",
+  "sculpture.status": "STATUS",
+  "sculpture.about": "ABOUT THE WORK",
+
+  "filters.material": "MATERIAL",
+  "filters.status": "STATUS",
+  "filters.all": "ALL",
+  "filters.clear": "Clear filters",
+
+  "about.eyebrow": "ABOUT THE STUDIO",
+  "about.title": "About",
+
+  "contact.eyebrow": "GET IN TOUCH",
+  "contact.title": "Contact the studio",
+  "contact.lead": "For inquiries about available works, private commissions, or to arrange a studio visit.",
+  "contact.info.email": "EMAIL",
+  "contact.info.phone": "PHONE",
+  "contact.info.studio": "STUDIO",
+  "contact.info.hours": "STUDIO HOURS",
+  "contact.info.follow": "FOLLOW",
+
+  "form.name": "YOUR NAME",
+  "form.email": "EMAIL",
+  "form.subject": "SUBJECT",
+  "form.message": "MESSAGE",
+  "form.send": "SEND MESSAGE",
+  "form.sending": "Sending…",
+  "form.required": "Required",
+  "form.errorGeneric": "Could not send your message. Please try again or email me directly at {email}.",
+  "form.successTitle": "Thank you for your message",
+  "form.successBody": "I'll reply within 48 hours. In the meantime — feel free to browse the collection.",
+  "form.successBack": "← Back to the collection",
+
+  "footer.explore": "Explore",
+  "footer.sendMessage": "Send a message",
+  "footer.copyrightTemplate": "© {year} {brand}. All works are unique.",
+  "footer.location": "{city}",
+  "footer.privacy": "Privacy policy",
+  "footer.terms": "Terms",
+
+  "blog.eyebrow": "FROM THE STUDIO",
+  "blog.title": "Journal",
+  "blog.lead": "Short notes on materials, craft, and life in the studio.",
+  "blog.readMore": "Read more →",
+  "blog.back": "← Back to the journal",
+  "blog.empty": "Check back soon — the first notes are on their way.",
+
+  "legal.privacy.title": "Privacy policy",
+  "legal.privacy.body": "Document in preparation. Contact details are on the Contact page.",
+  "legal.terms.title": "Terms",
+  "legal.terms.body": "Document in preparation. For sculpture purchases, please use the contact form.",
+
+  "breadcrumb.home": "Home",
+  "breadcrumb.sculptures": "Sculptures"
 }

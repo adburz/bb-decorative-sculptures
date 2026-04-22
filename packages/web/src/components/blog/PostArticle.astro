@@ -1,0 +1,60 @@
+---
+import type { Post } from "~/lib/content/types";
+import { t, type Locale } from "~/lib/i18n";
+import { resolveAlt } from "~/lib/image";
+
+interface Props {
+  post: Post;
+  locale: Locale;
+}
+
+const { post, locale } = Astro.props;
+
+const listHref = locale === "pl" ? "/pl/blog/" : "/en/blog/";
+const dateFormatter = new Intl.DateTimeFormat(locale === "pl" ? "pl-PL" : "en-GB", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<main id="main" class="mx-auto max-w-3xl px-6 py-20">
+  <a
+    href={listHref}
+    class="text-eyebrow font-body text-brand-muted hover:text-brand-text uppercase"
+  >
+    {t(locale, "blog.back")}
+  </a>
+
+  <article class="mt-10 flex flex-col gap-8">
+    <header class="flex flex-col gap-4">
+      <p class="text-eyebrow font-body text-brand-accent uppercase">
+        {dateFormatter.format(new Date(post.publishedAt))}
+      </p>
+      <h1 class="font-display text-brand-text text-4xl leading-tight md:text-5xl">
+        {post.title[locale]}
+      </h1>
+      <p class="font-body text-brand-muted text-base leading-relaxed">{post.excerpt[locale]}</p>
+    </header>
+
+    {
+      post.coverImage && (
+        <div class="bg-brand-panel aspect-[16/9] overflow-hidden">
+          <img
+            src={post.coverImage.url}
+            alt={resolveAlt(post.coverImage, locale, post.title[locale])}
+            width={post.coverImage.width ?? 1600}
+            height={post.coverImage.height ?? 900}
+            loading="eager"
+            decoding="async"
+            class="h-full w-full object-cover"
+          />
+        </div>
+      )
+    }
+
+    <div class="font-body text-brand-text whitespace-pre-line text-base leading-relaxed md:text-lg">
+      {post.body[locale]}
+    </div>
+  </article>
+</main>

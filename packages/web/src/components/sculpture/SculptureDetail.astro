@@ -1,0 +1,135 @@
+---
+import type { Sculpture } from "~/lib/content/types";
+import { t, type Locale } from "~/lib/i18n";
+import Badge from "~/components/primitives/Badge.astro";
+import Button from "~/components/primitives/Button.astro";
+import { resolveAlt } from "~/lib/image";
+
+interface Props {
+  sculpture: Sculpture;
+  locale: Locale;
+}
+
+const { sculpture, locale } = Astro.props;
+
+const title = sculpture.title[locale];
+const description = sculpture.description[locale];
+const materialName = sculpture.material.name[locale];
+const { width: w, height: h, depth: d, unit } = sculpture.dimensions;
+const dimsLine = `${w} × ${h} × ${d} ${unit}`;
+
+const priceDisplay = sculpture.price.onRequest
+  ? t(locale, "card.priceOnRequest")
+  : sculpture.price.currency === "EUR"
+    ? `€${sculpture.price.amount?.toLocaleString(locale === "pl" ? "pl-PL" : "en-US")}`
+    : `${sculpture.price.amount?.toLocaleString(locale === "pl" ? "pl-PL" : "en-US")} zł`;
+
+const statusLabel = t(locale, `status.${sculpture.status}`);
+
+const backHref = locale === "pl" ? "/pl/rzezby/" : "/en/sculptures/";
+const contactBase = locale === "pl" ? "/pl/kontakt/" : "/en/contact/";
+const subjectPrefix = locale === "pl" ? "Zapytanie" : "Inquiry";
+const contactHref = `${contactBase}?sculpture=${encodeURIComponent(
+  sculpture.slug[locale],
+)}&subject=${encodeURIComponent(`${subjectPrefix}: ${title}`)}`;
+
+const [cover, ...rest] = sculpture.gallery;
+---
+
+<main id="main" class="mx-auto max-w-6xl px-6 py-16">
+  <a
+    href={backHref}
+    class="text-eyebrow font-body text-brand-muted hover:text-brand-text uppercase"
+  >
+    {t(locale, "sculptures.backToList")}
+  </a>
+
+  <div class="mt-10 grid gap-12 lg:grid-cols-5">
+    <div class="flex flex-col gap-4 lg:col-span-3">
+      {
+        cover && (
+          <div class="bg-brand-panel relative aspect-square overflow-hidden">
+            <img
+              src={cover.url}
+              alt={resolveAlt(cover, locale, title)}
+              width={cover.width ?? 1200}
+              height={cover.height ?? 1200}
+              loading="eager"
+              decoding="async"
+              class="h-full w-full object-cover"
+            />
+            <Badge status={sculpture.status} locale={locale} class="absolute left-4 top-4" />
+          </div>
+        )
+      }
+      {
+        rest.length > 0 && (
+          <div class="grid grid-cols-2 gap-4 md:grid-cols-3">
+            {rest.map((img) => (
+              <div class="bg-brand-panel aspect-square overflow-hidden">
+                <img
+                  src={img.url}
+                  alt={resolveAlt(img, locale, title)}
+                  width={img.width ?? 800}
+                  height={img.height ?? 800}
+                  loading="lazy"
+                  decoding="async"
+                  class="h-full w-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        )
+      }
+    </div>
+
+    <aside class="flex flex-col gap-8 lg:col-span-2">
+      <header class="flex flex-col gap-3">
+        <p class="text-eyebrow font-body text-brand-muted uppercase">
+          {t(locale, "sculpture.details")}
+        </p>
+        <h1 class="font-display text-brand-text text-3xl md:text-4xl">{title}</h1>
+      </header>
+
+      <dl class="border-brand-border divide-brand-border font-body flex flex-col divide-y border-y">
+        <div class="flex items-baseline justify-between py-4">
+          <dt class="text-eyebrow text-brand-muted uppercase">
+            {t(locale, "sculpture.material")}
+          </dt>
+          <dd class="text-brand-text text-right text-sm">{materialName}</dd>
+        </div>
+        <div class="flex items-baseline justify-between py-4">
+          <dt class="text-eyebrow text-brand-muted uppercase">
+            {t(locale, "sculpture.dimensions")}
+          </dt>
+          <dd class="text-brand-text text-right text-sm">{dimsLine}</dd>
+        </div>
+        <div class="flex items-baseline justify-between py-4">
+          <dt class="text-eyebrow text-brand-muted uppercase">{t(locale, "sculpture.price")}</dt>
+          <dd class="text-brand-text text-right text-base">{priceDisplay}</dd>
+        </div>
+        <div class="flex items-baseline justify-between py-4">
+          <dt class="text-eyebrow text-brand-muted uppercase">{t(locale, "sculpture.status")}</dt>
+          <dd class="text-brand-text text-right text-sm">{statusLabel}</dd>
+        </div>
+      </dl>
+
+      <section class="flex flex-col gap-3">
+        <p class="text-eyebrow font-body text-brand-muted uppercase">
+          {t(locale, "sculpture.about")}
+        </p>
+        <p class="font-body text-brand-text whitespace-pre-line text-base leading-relaxed">
+          {description}
+        </p>
+      </section>
+
+      {
+        sculpture.status !== "sold" && (
+          <Button href={contactHref} fullWidth>
+            {t(locale, "card.askAboutPiece")} →
+          </Button>
+        )
+      }
+    </aside>
+  </div>
+</main>

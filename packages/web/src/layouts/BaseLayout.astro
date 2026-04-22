@@ -1,22 +1,107 @@
 ---
 import "../styles/globals.css";
+import { getSiteSettings } from "~/lib/content";
+import { isLocale, t, type Locale } from "~/lib/i18n";
+import { resolveAlternates } from "~/lib/i18n/alternates";
+import { organizationLd, websiteLd } from "~/lib/seo/jsonld";
+import TopNav from "~/components/layout/TopNav.astro";
+import SiteFooter from "~/components/layout/SiteFooter.astro";
+import cormorantLatin from "@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-normal.woff2?url";
+import cormorantLatinExt from "@fontsource/cormorant-garamond/files/cormorant-garamond-latin-ext-400-normal.woff2?url";
+
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
+  ogType?: "website" | "article" | "product";
+  alternates?: Record<Locale, string>;
+  chrome?: boolean;
 }
-const { title, description = "Dekoracyjne Rzeźby BB — katalog rzeźb" } = Astro.props;
-const locale = Astro.currentLocale ?? "pl";
+
+const {
+  title,
+  description,
+  ogImage,
+  ogType = "website",
+  alternates: alternatesProp,
+  chrome = true,
+} = Astro.props;
+
+const settings = await getSiteSettings();
+const rawLocale = Astro.currentLocale ?? "pl";
+const locale: Locale = isLocale(rawLocale) ? rawLocale : "pl";
+
+const siteUrl = Astro.site ?? new URL("https://dekoracyjna-rzezba.pl");
+const pathname = Astro.url.pathname;
+const alternates = alternatesProp ?? resolveAlternates(pathname);
+const canonical = new URL(pathname, siteUrl);
+
+const metaDescription = description ?? settings.tagline[locale];
+const resolvedOgImage = ogImage
+  ? new URL(ogImage, siteUrl).toString()
+  : new URL(settings.defaultOgImage ?? "/og-default.jpg", siteUrl).toString();
+
+const orgLd = organizationLd(settings, siteUrl);
+const siteLd = websiteLd(settings, siteUrl, locale);
 ---
 
 <!doctype html>
-<html lang={locale}>
+<html lang={locale} dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#F5EFE6" />
+
     <title>{title}</title>
+    <meta name="description" content={metaDescription} />
+
+    <link rel="canonical" href={canonical.toString()} />
+    <link rel="alternate" hreflang="pl" href={new URL(alternates.pl, siteUrl).toString()} />
+    <link rel="alternate" hreflang="en" href={new URL(alternates.en, siteUrl).toString()} />
+    <link rel="alternate" hreflang="x-default" href={new URL(alternates.pl, siteUrl).toString()} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={settings.brandName} />
+    <meta property="og:locale" content={locale === "pl" ? "pl_PL" : "en_US"} />
+    <meta property="og:locale:alternate" content={locale === "pl" ? "en_US" : "pl_PL"} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:url" content={canonical.toString()} />
+    <meta property="og:image" content={resolvedOgImage} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={metaDescription} />
+    <meta name="twitter:image" content={resolvedOgImage} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="preload" href={cormorantLatin} as="font" type="font/woff2" crossorigin="anonymous" />
+    <link
+      rel="preload"
+      href={cormorantLatinExt}
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+
+    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(orgLd)} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(siteLd)} />
   </head>
-  <body>
-    <slot />
+  <body class="bg-brand-bg text-brand-text font-body flex min-h-screen flex-col antialiased">
+    <a
+      href="#main"
+      class="bg-brand-button sr-only z-50 px-4 py-2 text-white focus:not-sr-only focus:absolute focus:left-2 focus:top-2"
+    >
+      {t(locale, "a11y.skipToContent")}
+    </a>
+    {chrome && <TopNav locale={locale} brandName={settings.brandName} alternates={alternates} />}
+    <div class="flex-1">
+      <slot />
+    </div>
+    {chrome && <SiteFooter locale={locale} settings={settings} />}
   </body>
 </html>

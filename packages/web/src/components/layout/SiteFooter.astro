@@ -1,0 +1,124 @@
+---
+import { t, type Locale } from "~/lib/i18n";
+import type { SiteSettings } from "~/lib/content/types";
+
+interface Props {
+  locale: Locale;
+  settings: SiteSettings;
+}
+
+const { locale, settings } = Astro.props;
+const year = new Date().getFullYear();
+
+const prefix = `/${locale}`;
+const explore =
+  locale === "pl"
+    ? [
+        { label: t("pl", "nav.home"), href: "/pl/" },
+        { label: t("pl", "nav.sculptures"), href: "/pl/rzezby/" },
+        { label: t("pl", "nav.about"), href: "/pl/o-mnie/" },
+        { label: t("pl", "nav.blog"), href: "/pl/blog/" },
+        { label: t("pl", "nav.contact"), href: "/pl/kontakt/" },
+      ]
+    : [
+        { label: t("en", "nav.home"), href: "/en/" },
+        { label: t("en", "nav.sculptures"), href: "/en/sculptures/" },
+        { label: t("en", "nav.about"), href: "/en/about/" },
+        { label: t("en", "nav.blog"), href: "/en/blog/" },
+        { label: t("en", "nav.contact"), href: "/en/contact/" },
+      ];
+
+const privacy =
+  locale === "pl"
+    ? { label: t("pl", "footer.privacy"), href: "/pl/polityka-prywatnosci/" }
+    : { label: t("en", "footer.privacy"), href: "/en/privacy-policy/" };
+const terms =
+  locale === "pl"
+    ? { label: t("pl", "footer.terms"), href: "/pl/regulamin/" }
+    : { label: t("en", "footer.terms"), href: "/en/terms/" };
+
+const copyright = t(locale, "footer.copyrightTemplate", { year, brand: settings.brandName });
+---
+
+<footer class="bg-brand-panel border-brand-border mt-24 border-t">
+  <div class="mx-auto max-w-6xl px-6 py-16">
+    <div class="grid gap-12 md:grid-cols-3">
+      <div class="flex flex-col gap-4">
+        <p class="font-display text-brand-text text-xl leading-tight">{settings.brandName}</p>
+        <p class="font-body text-brand-muted max-w-xs text-sm leading-relaxed">
+          {settings.tagline[locale]}
+        </p>
+        <div class="font-body text-brand-text mt-2 flex flex-col gap-1 text-sm">
+          <a
+            href={`mailto:${settings.contact.email}`}
+            class="hover:text-brand-accent transition-colors"
+          >
+            {settings.contact.email}
+          </a>
+          {
+            settings.contact.phone && (
+              <a
+                href={`tel:${settings.contact.phone.replace(/\s+/g, "")}`}
+                class="hover:text-brand-accent transition-colors"
+              >
+                {settings.contact.phone}
+              </a>
+            )
+          }
+          {
+            settings.social.instagram && (
+              <a
+                href={settings.social.instagram}
+                rel="me noopener"
+                target="_blank"
+                class="text-brand-accent mt-2 text-[12px] uppercase tracking-[0.15em] hover:underline"
+              >
+                Instagram →
+              </a>
+            )
+          }
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <p class="text-eyebrow text-brand-muted font-body uppercase">
+          {t(locale, "footer.explore")}
+        </p>
+        <nav class="font-body text-brand-text flex flex-col gap-2 text-sm">
+          {
+            explore.map((link) => (
+              <a href={link.href} class="hover:text-brand-accent transition-colors">
+                {link.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <p class="text-eyebrow text-brand-muted font-body uppercase">
+          {t(locale, "footer.sendMessage")}
+        </p>
+        <p class="font-body text-brand-muted text-sm leading-relaxed">
+          {t(locale, "contact.lead")}
+        </p>
+        <a
+          href={`${prefix}/${locale === "pl" ? "kontakt" : "contact"}/`}
+          class="text-eyebrow text-brand-text hover:text-brand-accent font-body uppercase transition-colors"
+        >
+          {t(locale, "form.send")} →
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="border-brand-border font-body text-brand-muted mt-16 flex flex-col gap-2 border-t pt-6 text-xs md:flex-row md:items-center md:justify-between"
+    >
+      <p>{copyright}</p>
+      <div class="flex gap-4">
+        <a href={privacy.href} class="hover:text-brand-text transition-colors">{privacy.label}</a>
+        <a href={terms.href} class="hover:text-brand-text transition-colors">{terms.label}</a>
+      </div>
+    </div>
+  </div>
+</footer>

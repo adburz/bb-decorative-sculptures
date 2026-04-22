@@ -1,0 +1,134 @@
+---
+import { t, type Locale } from "~/lib/i18n";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+
+interface Props {
+  locale: Locale;
+  brandName: string;
+  alternates: Record<Locale, string>;
+}
+
+const { locale, brandName, alternates } = Astro.props;
+
+const prefix = `/${locale}`;
+
+const linksPl = [
+  { label: t("pl", "nav.home"), href: "/pl/" },
+  { label: t("pl", "nav.sculptures"), href: "/pl/rzezby/" },
+  { label: t("pl", "nav.about"), href: "/pl/o-mnie/" },
+  { label: t("pl", "nav.contact"), href: "/pl/kontakt/" },
+];
+
+const linksEn = [
+  { label: t("en", "nav.home"), href: "/en/" },
+  { label: t("en", "nav.sculptures"), href: "/en/sculptures/" },
+  { label: t("en", "nav.about"), href: "/en/about/" },
+  { label: t("en", "nav.contact"), href: "/en/contact/" },
+];
+
+const links = locale === "pl" ? linksPl : linksEn;
+
+const brandParts = brandName.trim().split(" ");
+const brandAccent = brandParts.length > 1 ? brandParts[brandParts.length - 1] : "";
+const brandLead = brandParts.length > 1 ? brandParts.slice(0, -1).join(" ") : brandName;
+---
+
+<header class="border-brand-border bg-brand-bg/95 sticky top-0 z-40 border-b backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+    <a href={`${prefix}/`} class="font-display text-brand-text text-xl leading-none tracking-tight">
+      <span>{brandLead}</span>
+      {brandAccent && <span class="text-brand-accent italic"> {brandAccent}</span>}
+    </a>
+
+    <nav
+      aria-label="Primary"
+      class="font-body hidden items-center gap-8 text-[12px] uppercase tracking-[0.2em] md:flex"
+    >
+      {
+        links.map((link) => (
+          <a href={link.href} class="text-brand-text hover:text-brand-accent transition-colors">
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <LanguageSwitcher locale={locale} alternates={alternates} />
+      <button
+        type="button"
+        class="text-brand-text hover:text-brand-accent inline-flex h-10 w-10 items-center justify-center md:hidden"
+        aria-label={t(locale, "nav.openMenu")}
+        aria-controls="site-mobile-menu"
+        aria-expanded="false"
+        data-nav-toggle
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          data-nav-icon="open"
+        >
+          <path d="M4 7h16M4 12h16M4 17h16"></path>
+        </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          class="hidden"
+          data-nav-icon="close"
+        >
+          <path d="M6 6l12 12M6 18L18 6"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="site-mobile-menu"
+    class="border-brand-border bg-brand-bg hidden border-t md:hidden"
+    data-nav-panel
+  >
+    <nav
+      aria-label="Mobile"
+      class="font-body mx-auto flex max-w-6xl flex-col gap-1 px-6 py-4 text-[13px] uppercase tracking-[0.2em]"
+    >
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class="text-brand-text hover:text-brand-accent py-3 transition-colors"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
+  const panel = document.querySelector<HTMLElement>("[data-nav-panel]");
+  const openIcon = document.querySelector<SVGElement>('[data-nav-icon="open"]');
+  const closeIcon = document.querySelector<SVGElement>('[data-nav-icon="close"]');
+
+  if (toggle && panel && openIcon && closeIcon) {
+    toggle.addEventListener("click", () => {
+      const open = panel.classList.toggle("hidden") === false;
+      toggle.setAttribute("aria-expanded", String(open));
+      openIcon.classList.toggle("hidden", open);
+      closeIcon.classList.toggle("hidden", !open);
+    });
+  }
+</script>

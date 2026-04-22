@@ -1,0 +1,76 @@
+---
+import { t, type Locale } from "~/lib/i18n";
+import type { Sculpture } from "~/lib/content/types";
+import Badge from "~/components/primitives/Badge.astro";
+
+interface Props {
+  sculpture: Sculpture;
+  locale: Locale;
+  showAskLink?: boolean;
+}
+
+const { sculpture, locale, showAskLink = false } = Astro.props;
+
+const detailHref =
+  locale === "pl" ? `/pl/rzezby/${sculpture.slug.pl}/` : `/en/sculptures/${sculpture.slug.en}/`;
+
+const contactHref =
+  locale === "pl"
+    ? `/pl/kontakt/?sculpture=${sculpture.slug.pl}&subject=${encodeURIComponent(`Zapytanie: ${sculpture.title.pl}`)}`
+    : `/en/contact/?sculpture=${sculpture.slug.en}&subject=${encodeURIComponent(`Inquiry: ${sculpture.title.en}`)}`;
+
+const cover = sculpture.gallery[0];
+const { width: w, height: h, depth: d, unit } = sculpture.dimensions;
+const dimsLine = `${w} × ${h} × ${d} ${unit}`;
+const materialName = sculpture.material.name[locale];
+const title = sculpture.title[locale];
+
+const priceDisplay = sculpture.price.onRequest
+  ? t(locale, "card.priceOnRequest")
+  : sculpture.price.currency === "EUR"
+    ? `€${sculpture.price.amount?.toLocaleString(locale === "pl" ? "pl-PL" : "en-US")}`
+    : `${sculpture.price.amount?.toLocaleString(locale === "pl" ? "pl-PL" : "en-US")} zł`;
+---
+
+<article class="group flex flex-col gap-4">
+  <a
+    href={detailHref}
+    class="bg-brand-panel focus-visible:outline-brand-accent relative block aspect-square overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+    aria-label={`${title} — ${t(locale, "card.viewDetails")}`}
+  >
+    {
+      cover && (
+        <img
+          src={cover.url}
+          alt={cover.alt[locale]}
+          width={cover.width ?? 800}
+          height={cover.height ?? 800}
+          loading="lazy"
+          decoding="async"
+          class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+        />
+      )
+    }
+    <Badge status={sculpture.status} locale={locale} class="absolute left-3 top-3" />
+  </a>
+
+  <div class="flex flex-col gap-1.5">
+    <h3 class="font-display text-brand-text text-xl">
+      <a href={detailHref} class="hover:text-brand-accent transition-colors">{title}</a>
+    </h3>
+    <p class="font-body text-brand-muted text-sm">
+      {materialName} · {dimsLine}
+    </p>
+    <p class="font-body text-brand-text mt-1 text-base">{priceDisplay}</p>
+    {
+      showAskLink && (
+        <a
+          href={contactHref}
+          class="text-eyebrow text-brand-accent font-body mt-2 uppercase hover:underline"
+        >
+          {t(locale, "card.askAboutPiece")} →
+        </a>
+      )
+    }
+  </div>
+</article>

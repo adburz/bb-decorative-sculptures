@@ -1,0 +1,27 @@
+---
+import { t, type Locale } from "~/lib/i18n";
+
+type Status = "available" | "sold" | "reserved";
+
+interface Props {
+  status: Status;
+  locale: Locale;
+  class?: string;
+}
+
+const { status, locale, class: className = "" } = Astro.props;
+
+const styles: Record<Status, string> = {
+  available: "bg-brand-bg/90 text-brand-text",
+  sold: "bg-[#E8E1D4]/90 text-brand-text",
+  reserved: "bg-brand-panel/90 text-brand-text",
+};
+
+const labelKey = `status.${status}` as const;
+---
+
+<span
+  class={`inline-flex items-center px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] font-body font-medium ${styles[status]} ${className}`}
+>
+  {t(locale, labelKey)}
+</span>

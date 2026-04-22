@@ -1,6 +1,99 @@
 {
+  "a11y.skipToContent": "Przejdź do treści",
+
   "nav.home": "Strona główna",
   "nav.sculptures": "Rzeźby",
   "nav.about": "O mnie",
-  "nav.contact": "Kontakt"
+  "nav.contact": "Kontakt",
+  "nav.blog": "Blog",
+  "nav.openMenu": "Otwórz menu",
+  "nav.closeMenu": "Zamknij menu",
+
+  "language.pl": "PL",
+  "language.en": "EN",
+  "language.switchTo": "Zmień język na {lang}",
+
+  "home.eyebrow": "RZEŹBA — PRACOWNIA KATOWICE",
+  "home.title": "Rzeźba w brązie i żywicy",
+  "home.lead": "Odlewy w brązie, formy w żywicach i polimerach syntetycznych — prace sygnowane, numerowane i sprzedawane bezpośrednio z pracowni w Katowicach.",
+  "home.cta": "ZOBACZ KOLEKCJĘ",
+
+  "home.featured.eyebrow": "WYBRANE PRACE",
+  "home.featured.title": "Wybrane rzeźby",
+  "home.featured.seeAll": "ZOBACZ WSZYSTKIE →",
+
+  "home.about.eyebrow": "O PRACOWNI",
+  "home.about.signatureLabel": "założyciel",
+
+  "card.askAboutPiece": "ZAPYTAJ O TĘ PRACĘ",
+  "card.priceOnRequest": "Cena na zapytanie",
+  "card.viewDetails": "Zobacz szczegóły",
+
+  "status.available": "DOSTĘPNA",
+  "status.sold": "SPRZEDANA",
+  "status.reserved": "ZAREZERWOWANA",
+
+  "sculptures.eyebrow": "KOLEKCJA",
+  "sculptures.title": "Rzeźby na sprzedaż",
+  "sculptures.leadTemplate": "{count} prac — każda unikatowa, sygnowana i gotowa do wysyłki z {city}.",
+  "sculptures.empty": "Brak rzeźb spełniających te kryteria.",
+  "sculptures.backToList": "← Wróć do kolekcji",
+
+  "sculpture.details": "SZCZEGÓŁY",
+  "sculpture.material": "MATERIAŁ",
+  "sculpture.dimensions": "WYMIARY",
+  "sculpture.price": "CENA",
+  "sculpture.status": "STATUS",
+  "sculpture.about": "O PRACY",
+
+  "filters.material": "MATERIAŁ",
+  "filters.status": "STATUS",
+  "filters.all": "WSZYSTKIE",
+  "filters.clear": "Wyczyść filtry",
+
+  "about.eyebrow": "O PRACOWNI",
+  "about.title": "O mnie",
+
+  "contact.eyebrow": "KONTAKT",
+  "contact.title": "Napisz do pracowni",
+  "contact.lead": "W sprawie dostępnych prac, zamówień indywidualnych lub wizyty w pracowni.",
+  "contact.info.email": "E-MAIL",
+  "contact.info.phone": "TELEFON",
+  "contact.info.studio": "PRACOWNIA",
+  "contact.info.hours": "GODZINY",
+  "contact.info.follow": "OBSERWUJ",
+
+  "form.name": "IMIĘ",
+  "form.email": "E-MAIL",
+  "form.subject": "TEMAT",
+  "form.message": "WIADOMOŚĆ",
+  "form.send": "WYŚLIJ WIADOMOŚĆ",
+  "form.sending": "Wysyłanie…",
+  "form.required": "Wymagane",
+  "form.errorGeneric": "Nie udało się wysłać wiadomości. Spróbuj ponownie lub napisz bezpośrednio na {email}.",
+  "form.successTitle": "Dziękujemy za wiadomość",
+  "form.successBody": "Odpowiem w ciągu 48 godzin. Do tej pory — zapraszam do przeglądania kolekcji.",
+  "form.successBack": "← Wróć do kolekcji",
+
+  "footer.explore": "Odkryj",
+  "footer.sendMessage": "Napisz wiadomość",
+  "footer.copyrightTemplate": "© {year} {brand}. Wszystkie prace są unikatowe.",
+  "footer.location": "{city}",
+  "footer.privacy": "Polityka prywatności",
+  "footer.terms": "Regulamin",
+
+  "blog.eyebrow": "Z PRACOWNI",
+  "blog.title": "Notatki",
+  "blog.lead": "Krótkie teksty o materiałach, rzemiośle i pracy w pracowni.",
+  "blog.readMore": "Czytaj dalej →",
+  "blog.back": "← Wróć do notatek",
+  "blog.empty": "Wkrótce tu zajrzyj — pierwsze notatki są w drodze.",
+
+  "legal.privacy.title": "Polityka prywatności",
+  "legal.privacy.body": "Dokument w przygotowaniu. Dane kontaktowe znajdziesz na stronie Kontakt.",
+  "legal.terms.title": "Regulamin",
+  "legal.terms.body": "Dokument w przygotowaniu. W sprawie zakupu rzeźb napisz przez formularz kontaktowy.",
+
+  "breadcrumb.home": "Strona główna",
+  "breadcrumb.sculptures": "Rzeźby"
 }

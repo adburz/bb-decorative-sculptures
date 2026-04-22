@@ -1,0 +1,36 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  rightLink?: { label: string; href: string };
+  level?: 1 | 2 | 3;
+  align?: "left" | "center";
+  class?: string;
+}
+
+const { eyebrow, title, rightLink, level = 2, align = "left", class: className = "" } = Astro.props;
+
+const Heading = `h${level}` as const;
+const alignment = align === "center" ? "items-center text-center" : "";
+---
+
+<header class={`flex flex-col gap-4 ${alignment} ${className}`}>
+  {eyebrow && <p class="text-eyebrow text-brand-accent font-body uppercase">{eyebrow}</p>}
+  <div
+    class={`flex flex-wrap items-end gap-x-6 gap-y-2 ${align === "center" ? "justify-center" : "justify-between"}`}
+  >
+    <Heading class="font-display text-brand-text text-3xl md:text-4xl lg:text-[2.5rem]">
+      {title}
+    </Heading>
+    {
+      rightLink && (
+        <a
+          href={rightLink.href}
+          class="text-eyebrow text-brand-text hover:text-brand-accent font-body whitespace-nowrap uppercase transition-colors"
+        >
+          {rightLink.label}
+        </a>
+      )
+    }
+  </div>
+</header>

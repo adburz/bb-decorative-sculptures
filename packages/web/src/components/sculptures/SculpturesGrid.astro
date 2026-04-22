@@ -1,0 +1,72 @@
+---
+import type { Sculpture } from "~/lib/content/types";
+import { t, type Locale } from "~/lib/i18n";
+import SculptureCard from "~/components/sculpture/SculptureCard.astro";
+import FilterBar from "~/components/sculptures/FilterBar.astro";
+
+interface Props {
+  sculptures: Sculpture[];
+  locale: Locale;
+  basePath: string;
+}
+
+const { sculptures, locale, basePath } = Astro.props;
+
+const materialMap = new Map<string, string>();
+for (const s of sculptures) {
+  materialMap.set(s.material.slug, s.material.name[locale]);
+}
+const materials = Array.from(materialMap.entries()).map(([value, label]) => ({
+  value,
+  label: label.toUpperCase(),
+}));
+---
+
+<FilterBar locale={locale} basePath={basePath} materials={materials} />
+
+<div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3" data-sculptures-grid aria-live="polite">
+  {
+    sculptures.map((s) => (
+      <div data-material={s.material.slug} data-status={s.status}>
+        <SculptureCard sculpture={s} locale={locale} showAskLink />
+      </div>
+    ))
+  }
+</div>
+
+<p class="font-body text-brand-muted mt-12 hidden text-center text-sm" data-sculptures-empty>
+  {t(locale, "sculptures.empty")}
+</p>
+
+<script>
+  const grid = document.querySelector<HTMLElement>("[data-sculptures-grid]");
+  const empty = document.querySelector<HTMLElement>("[data-sculptures-empty]");
+  if (grid && empty) {
+    const apply = (): void => {
+      const params = new URLSearchParams(window.location.search);
+      const wantMaterial = params.get("material") ?? "all";
+      const wantStatus = params.get("status") ?? "all";
+      let visible = 0;
+      const cards = grid.querySelectorAll<HTMLElement>("[data-material]");
+      cards.forEach((card) => {
+        const m = card.getAttribute("data-material") ?? "";
+        const s = card.getAttribute("data-status") ?? "";
+        const match =
+          (wantMaterial === "all" || wantMaterial === m) &&
+          (wantStatus === "all" || wantStatus === s);
+        card.classList.toggle("hidden", !match);
+        if (match) visible += 1;
+      });
+      empty.classList.toggle("hidden", visible > 0);
+
+      document.querySelectorAll<HTMLAnchorElement>("[data-filter-pill]").forEach((pill) => {
+        const group = pill.getAttribute("data-filter-group");
+        const value = pill.getAttribute("data-filter-value") ?? "all";
+        const current = group === "material" ? wantMaterial : wantStatus;
+        pill.setAttribute("aria-current", value === current ? "true" : "false");
+      });
+    };
+    apply();
+    window.addEventListener("popstate", apply);
+  }
+</script>

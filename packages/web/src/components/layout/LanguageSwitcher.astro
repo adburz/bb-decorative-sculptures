@@ -1,0 +1,44 @@
+---
+import { t, type Locale, LOCALES } from "~/lib/i18n";
+
+interface Props {
+  locale: Locale;
+  alternates: Record<Locale, string>;
+  class?: string;
+}
+
+const { locale, alternates, class: className = "" } = Astro.props;
+
+const labels: Record<Locale, string> = { pl: "PL", en: "EN" };
+---
+
+<nav
+  aria-label="Language"
+  class={`font-body flex items-center gap-2 text-[12px] uppercase tracking-[0.15em] ${className}`}
+>
+  {
+    LOCALES.map((loc, idx) => (
+      <>
+        {idx > 0 && (
+          <span class="text-brand-border" aria-hidden="true">
+            /
+          </span>
+        )}
+        {loc === locale ? (
+          <span class="text-brand-text font-medium" aria-current="true">
+            {labels[loc]}
+          </span>
+        ) : (
+          <a
+            href={alternates[loc]}
+            hreflang={loc}
+            class="text-brand-muted hover:text-brand-text transition-colors"
+            aria-label={t(locale, "language.switchTo", { lang: labels[loc] })}
+          >
+            {labels[loc]}
+          </a>
+        )}
+      </>
+    ))
+  }
+</nav>

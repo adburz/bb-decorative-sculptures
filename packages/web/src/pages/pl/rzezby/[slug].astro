@@ -1,0 +1,46 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import SculptureDetail from "~/components/sculpture/SculptureDetail.astro";
+import { getSculptures, getSiteSettings } from "~/lib/content";
+import { productLd } from "~/lib/seo/jsonld";
+import type { Sculpture } from "~/lib/content/types";
+
+export async function getStaticPaths() {
+  const sculptures = await getSculptures();
+  return sculptures.map((s) => ({
+    params: { slug: s.slug.pl },
+    props: { sculpture: s },
+  }));
+}
+
+interface Props {
+  sculpture: Sculpture;
+}
+
+const { sculpture } = Astro.props;
+const settings = await getSiteSettings();
+const siteUrl = Astro.site ?? new URL("https://dekoracyjna-rzezba.pl");
+
+const title = sculpture.seo?.title?.pl ?? sculpture.title.pl;
+const description = sculpture.seo?.description?.pl ?? sculpture.description.pl.slice(0, 155);
+const ogImage = sculpture.gallery[0]?.url;
+
+const alternates = {
+  pl: `/pl/rzezby/${sculpture.slug.pl}/`,
+  en: `/en/sculptures/${sculpture.slug.en}/`,
+};
+
+const jsonLd = productLd(sculpture, "pl", settings, siteUrl);
+---
+
+<BaseLayout
+  title={`${title} — ${settings.brandName}`}
+  description={description}
+  ogImage={ogImage}
+  ogType="product"
+  alternates={alternates}
+>
+  <SculptureDetail sculpture={sculpture} locale="pl" />
+
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+</BaseLayout>
