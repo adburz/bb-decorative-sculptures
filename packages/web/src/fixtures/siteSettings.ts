@@ -7,7 +7,7 @@ const settings: SiteSettings = {
     en: "Sculptures in bronze and resin — the Katowice studio of Bogumił Burzyński",
   },
   contact: {
-    email: "bbstrona@gmail.com",
+    email: "kontakt@rzezbadekoracyjna.pl",
     phone: "+48 606 475 803",
     address: "ul. Kobylińskiego 2A, Katowice",
     city: { pl: "Katowic", en: "Katowice" },
