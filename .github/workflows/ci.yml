@@ -36,7 +36,7 @@ jobs:
       - name: Build web
         env:
           PUBLIC_CONTENT_SOURCE: fixtures
-          PUBLIC_SITE_URL: https://dekoracyjna-rzezba.pl
+          PUBLIC_SITE_URL: https://rzezbadekoracyjna.pl
         run: pnpm build:web
 
       - name: Build Sanity Studio

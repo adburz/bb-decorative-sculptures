@@ -4,7 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import node from "@astrojs/node";
 
 export default defineConfig({
-  site: process.env.PUBLIC_SITE_URL ?? "https://dekoracyjna-rzezba.pl",
+  site: process.env.PUBLIC_SITE_URL ?? "https://rzezbadekoracyjna.pl",
   output: "static",
   adapter: node({ mode: "standalone" }),
   integrations: [

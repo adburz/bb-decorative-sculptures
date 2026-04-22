@@ -19,7 +19,7 @@ interface Props {
 
 const { sculpture } = Astro.props;
 const settings = await getSiteSettings();
-const siteUrl = Astro.site ?? new URL("https://dekoracyjna-rzezba.pl");
+const siteUrl = Astro.site ?? new URL("https://rzezbadekoracyjna.pl");
 
 const title = sculpture.seo?.title?.pl ?? sculpture.title.pl;
 const description = sculpture.seo?.description?.pl ?? sculpture.description.pl.slice(0, 155);

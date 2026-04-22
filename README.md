@@ -1,6 +1,6 @@
 # Dekoracyjne Rzeźby BB
 
-Katalog-portfolio rzeźb dekoracyjnych — dwujęzyczny (PL/EN), na domenie `dekoracyjna-rzezba.pl`. Nie sklep — kontakt przez formularz.
+Katalog-portfolio rzeźb dekoracyjnych — dwujęzyczny (PL/EN), na domenie `rzezbadekoracyjna.pl`. Nie sklep — kontakt przez formularz.
 
 ## Stack
 
@@ -59,7 +59,7 @@ Flag `PUBLIC_CONTENT_SOURCE=fixtures` jest **tylko dla dev**. Przed wdrożeniem 
    - `WEB3FORMS_ACCESS_KEY=<klucz>`
    - `PUBLIC_TURNSTILE_SITE_KEY=<klucz>`
    - `TURNSTILE_SECRET_KEY=<klucz>`
-   - `PUBLIC_SITE_URL=https://dekoracyjna-rzezba.pl`
+   - `PUBLIC_SITE_URL=https://rzezbadekoracyjna.pl`
 2. **Lokalnie** (jeśli chcesz testować z prawdziwymi danymi): zmień `PUBLIC_CONTENT_SOURCE=sanity` w `packages/web/.env.local` i dodaj te same klucze Sanity.
 3. **Zweryfikuj** po deployu: otwórz `/pl/rzezby/` — lista powinna pokazywać content z Sanity, nie z fixtures. Jeśli widzisz fixtures na prod — env var nie zadziałała.
 

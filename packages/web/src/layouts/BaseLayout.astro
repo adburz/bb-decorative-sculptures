@@ -31,7 +31,7 @@ const settings = await getSiteSettings();
 const rawLocale = Astro.currentLocale ?? "pl";
 const locale: Locale = isLocale(rawLocale) ? rawLocale : "pl";
 
-const siteUrl = Astro.site ?? new URL("https://dekoracyjna-rzezba.pl");
+const siteUrl = Astro.site ?? new URL("https://rzezbadekoracyjna.pl");
 const pathname = Astro.url.pathname;
 const alternates = alternatesProp ?? resolveAlternates(pathname);
 const canonical = new URL(pathname, siteUrl);

@@ -1,10 +1,10 @@
 # Design Analysis — Decorative Sculptures
 
-Analiza trzech makiet przygotowanych w Lovable (nazwa projektu w designie: _Atelier Mira_, demo). Treść i brand są przykładowe — w implementacji zostaną zastąpione przez **Dekoracyjne Rzeźby BB** (domena: `dekoracyjna-rzezba.pl`). Układ, typografia i paleta pozostają jako „design system" do odwzorowania.
+Analiza trzech makiet przygotowanych w Lovable (nazwa projektu w designie: _Atelier Mira_, demo). Treść i brand są przykładowe — w implementacji zostaną zastąpione przez **Dekoracyjne Rzeźby BB** (domena: `rzezbadekoracyjna.pl`). Układ, typografia i paleta pozostają jako „design system" do odwzorowania.
 
 **Potwierdzone decyzje (2026-04-21):**
 
-- Brand: **Dekoracyjne Rzeźby BB**, domena: `dekoracyjna-rzezba.pl`
+- Brand: **Dekoracyjne Rzeźby BB**, domena: `rzezbadekoracyjna.pl`
 - Fonty: para _serif display (Cormorant Garamond)_ + _Inter sans_ jako start; architektura pozwala na swap jednym commitem (patrz [IMPLEMENTATION_PLAN.md#faza-2](IMPLEMENTATION_PLAN.md))
 - Language switcher: **PL / EN** w navbarze (decyzja zatwierdzona)
 - Filtry na Sculptures: **URL-driven** (SEO-friendly, szerowalne linki)

@@ -3,7 +3,7 @@
 Plan implementacji strony-katalogu rzeźb dekoracyjnych. Stack uzgodniony: **Astro + TypeScript + Tailwind + Sanity** na **Cloudflare Pages** z formularzem przez **Web3Forms**. Podział na fazy jest dobrany tak, żeby każda faza = 1–3 sesje z Claude Code, każda faza = osobny PR.
 
 **Brand:** Dekoracyjne Rzeźby BB
-**Domena:** `dekoracyjna-rzezba.pl`
+**Domena:** `rzezbadekoracyjna.pl`
 
 Ten plan odwołuje się do:
 
@@ -477,7 +477,7 @@ export default defineType({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         access_key: import.meta.env.WEB3FORMS_ACCESS_KEY,
-        from_name: `[dekoracyjna-rzezba.pl] ${name}`,
+        from_name: `[rzezbadekoracyjna.pl] ${name}`,
         subject: subject || `Zapytanie od ${name}`,
         email: email, // → reply_to
         message: `${message}\n\n---\n${sculptureContext}\nIP (Cloudflare): ${clientIp}`,
@@ -497,7 +497,7 @@ export default defineType({
 - Wysłanie formularza z deweloperskiego środowiska → email dostarczony do skrzynki właściciela (może wymagać „not spam" przy pierwszym razie)
 - Spam z wypełnionym honeypot → 400 (odrzucony)
 - Spam bez Turnstile tokenu → 400
-- Context prefill: kliknięcie „ZAPYTAJ O TĘ PRACĘ" na szczególe „Świt" → formularz ma subject „Zapytanie: Świt" i w message linię „Dotyczy: Świt (https://dekoracyjna-rzezba.pl/pl/rzezby/swit)"
+- Context prefill: kliknięcie „ZAPYTAJ O TĘ PRACĘ" na szczególe „Świt" → formularz ma subject „Zapytanie: Świt" i w message linię „Dotyczy: Świt (https://rzezbadekoracyjna.pl/pl/rzezby/swit)"
 - Przekroczenie 250 req/mies w Web3Forms → dashboard pokaże; zaalarmuje właściciela że trzeba pomyśleć o Resend
 
 **Szacowany czas:** 1 sesja.
@@ -588,9 +588,9 @@ export default defineType({
   - `WEB3FORMS_ACCESS_KEY` (server-side)
   - `TURNSTILE_SECRET_KEY` (server-side validation)
   - `PUBLIC_TURNSTILE_SITE_KEY` (inject do HTML)
-  - `PUBLIC_SITE_URL=https://dekoracyjna-rzezba.pl`
-- [ ] Custom domain `dekoracyjna-rzezba.pl` podpięta w Cloudflare Pages → automatyczny SSL (Let's Encrypt)
-- [ ] Cloudflare Email Routing: `kontakt@dekoracyjna-rzezba.pl` → prywatny email właściciela (darmowe, Cloudflare)
+  - `PUBLIC_SITE_URL=https://rzezbadekoracyjna.pl`
+- [ ] Custom domain `rzezbadekoracyjna.pl` podpięta w Cloudflare Pages → automatyczny SSL (Let's Encrypt)
+- [ ] Cloudflare Email Routing: `kontakt@rzezbadekoracyjna.pl` → prywatny email właściciela (darmowe, Cloudflare)
 - [ ] (Web3Forms nie wymaga weryfikacji domeny — pomijamy)
 - [ ] Sanity webhook: po każdej publikacji → POST na Cloudflare Pages Deploy Hook → rebuild
 - [ ] Deploy preview per PR (default w Cloudflare Pages)
@@ -611,7 +611,7 @@ export default defineType({
 
 **Szacowany czas:** 1 sesja.
 
-**Zależności:** #1 domena `dekoracyjna-rzezba.pl` zarejestrowana, #4 Cloudflare account + DNS (nameservery wskazujące na CF), #5 Web3Forms access key, #9 skrzynka email, Faza 5, Faza 6.
+**Zależności:** #1 domena `rzezbadekoracyjna.pl` zarejestrowana, #4 Cloudflare account + DNS (nameservery wskazujące na CF), #5 Web3Forms access key, #9 skrzynka email, Faza 5, Faza 6.
 
 ---
 

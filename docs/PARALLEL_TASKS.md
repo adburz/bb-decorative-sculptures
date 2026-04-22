@@ -12,9 +12,9 @@ Posortowane od najważniejszych (blokujących najwcześniejsze fazy) do najpóź
 
 ---
 
-## 1. Rejestracja domeny `dekoracyjna-rzezba.pl`
+## 1. Rejestracja domeny `rzezbadekoracyjna.pl`
 
-**Decyzja:** domena **`dekoracyjna-rzezba.pl`**, brand **Dekoracyjne Rzeźby BB** (wybrane 2026-04-21).
+**Decyzja:** domena **`rzezbadekoracyjna.pl`**, brand **Dekoracyjne Rzeźby BB** (wybrane 2026-04-21).
 
 **Kiedy:** **teraz** — propagacja DNS + przepięcie nameserverów na Cloudflare zajmuje do kilku godzin, a bez tego nie ruszymy Fazy 7.
 
@@ -37,12 +37,12 @@ Domena `.pl` wymaga rejestratora polskiego lub zagranicznego wspierającego `.pl
 
 ### Kroki
 
-1. Wejdź do wybranego rejestratora → sprawdź dostępność `dekoracyjna-rzezba.pl`
+1. Wejdź do wybranego rejestratora → sprawdź dostępność `rzezbadekoracyjna.pl`
 2. Kup (najkrótszy okres = 1 rok na start, da się przedłużyć)
 3. **Nie kupuj dodatków:** hostingu, skrzynek email, „certyfikatu SSL premium", „prywatności WHOIS premium" itp. — mamy to wszystko darmowo przez Cloudflare
 4. Po zakupie: w panelu rejestratora znajdź **„Serwery DNS" / „Nameservery"** i zapamiętaj — podmienimy je w kroku #4 na Cloudflare nameservery
-5. (Opcjonalnie) Rozważ dodatkowy zakup `dekoracyjnarzezba.pl` (bez myślnika) jako alias — to ~10 zł i chroni przed typosquattingiem. Mogę zrobić 301 redirect w Fazie 7.
-6. (Opcjonalnie) **`dekoracyjna-rzezba.com`** jako zabezpieczenie międzynarodowe — jeśli planujesz pozycjonowanie rynku EN, rozważ w przyszłości. Na MVP nie potrzebne.
+5. (Opcjonalnie) Rozważ dodatkowy zakup wariantów jako alias — chroni przed typosquattingiem. Najbardziej prawdopodobne pomyłki: `rzezba-dekoracyjna.pl` (z myślnikiem), `dekoracyjna-rzezba.pl` (odwrócona kolejność), `dekoracyjnarzezba.pl`. Każdy ~10 zł. Mogę zrobić 301 redirect w Fazie 7.
+6. (Opcjonalnie) **`rzezbadekoracyjna.com`** jako zabezpieczenie międzynarodowe — jeśli planujesz pozycjonowanie rynku EN, rozważ w przyszłości. Na MVP nie potrzebne.
 
 ### Socialmedia handle
 
@@ -146,7 +146,7 @@ Jeśli dany handle zajęty — wymyśl wariant (`_bb`, `.studio` na końcu itp.)
 - Nie wymaga weryfikacji domeny ani konfiguracji DNS.
 - Mail przychodzi z `noreply@web3forms.com` → **pierwszym razem sprawdź folder SPAM i oznacz jako „Not spam"** + utwórz w Gmailu filtr „From: noreply@web3forms.com → Never send to Spam".
 - Pole `email` w requescie do Web3Forms ustawia **Reply-To** — gdy klikniesz „Odpowiedz" w Gmailu, odpowiedź pójdzie do klienta.
-- Gdy zbliżysz się do limitu 250/mies (dashboard Web3Forms), czas na migrację na Resend (1 sesja dev + zakup domeny `noreply@dekoracyjna-rzezba.pl` weryfikacja).
+- Gdy zbliżysz się do limitu 250/mies (dashboard Web3Forms), czas na migrację na Resend (1 sesja dev + zakup domeny `noreply@rzezbadekoracyjna.pl` weryfikacja).
 
 ### Cloudflare Turnstile (anti-spam) — uwaga: robi się w kroku #4
 
@@ -271,7 +271,7 @@ Dla każdej rzeźby potrzeba:
 
 ## 9. Skrzynka email pod własną domeną
 
-**Kiedy:** przed Fazą 5 (mile widziane, żeby klient widział `kontakt@dekoracyjna-rzezba.pl` jako adres odpowiedzi).
+**Kiedy:** przed Fazą 5 (mile widziane, żeby klient widział `kontakt@rzezbadekoracyjna.pl` jako adres odpowiedzi).
 
 **Koszt:** darmowe (Cloudflare Email Routing).
 
@@ -281,15 +281,15 @@ Dla każdej rzeźby potrzeba:
 
 Obejmuje krok #4.6 powyżej. Minimum:
 
-- `kontakt@dekoracyjna-rzezba.pl` → forward na `twoj-prywatny@gmail.com`
+- `kontakt@rzezbadekoracyjna.pl` → forward na `twoj-prywatny@gmail.com`
 
 Web3Forms wysyła z `noreply@web3forms.com` (tego nie zmieniamy), a odpowiedź klientowi wychodzi z Twojej prywatnej skrzynki Gmail (bo to tam dostajesz forward).
 
-**Opcjonalnie — wysyłanie z `kontakt@dekoracyjna-rzezba.pl`:**
+**Opcjonalnie — wysyłanie z `kontakt@rzezbadekoracyjna.pl`:**
 
-- W Gmailu: **Settings** → **Accounts** → **Send mail as** → **Add another email** → `kontakt@dekoracyjna-rzezba.pl`
+- W Gmailu: **Settings** → **Accounts** → **Send mail as** → **Add another email** → `kontakt@rzezbadekoracyjna.pl`
 - Jako SMTP relay: **[ZohoMail](https://www.zoho.com/mail/)** darmowy plan (1 użytkownik, 5 GB, własna domena) albo **ImprovMX** (tylko forwarding) albo **[Purelymail](https://purelymail.com/)** (~$10/rok)
-- Po konfiguracji: odpowiadasz w Gmailu, ale klient widzi `kontakt@dekoracyjna-rzezba.pl` w „From"
+- Po konfiguracji: odpowiadasz w Gmailu, ale klient widzi `kontakt@rzezbadekoracyjna.pl` w „From"
 
 **Rekomendacja na MVP:** zostawić forwarding-only (kontakt@… → Gmail), odpowiadać z prywatnego Gmaila z podpisem „— BB, Dekoracyjne Rzeźby BB". Dopiero jak strona zacznie żyć i będzie to dokuczliwe, dosetupować ZohoMail (15 min).
 
@@ -326,7 +326,7 @@ Web3Forms wysyła z `noreply@web3forms.com` (tego nie zmieniamy), a odpowiedź k
 
 | #       | Zadanie                                                | Deadline (faza)            | Czas                     |
 | ------- | ------------------------------------------------------ | -------------------------- | ------------------------ |
-| 1       | Domena `dekoracyjna-rzezba.pl`                         | **TERAZ** (propagacja DNS) | 15 min + ~3 h propagacja |
+| 1       | Domena `rzezbadekoracyjna.pl`                          | **TERAZ** (propagacja DNS) | 15 min + ~3 h propagacja |
 | 2       | GitHub repo                                            | Faza 0                     | 10 min                   |
 | 3       | Sanity projekt                                         | Faza 1                     | 15 min                   |
 | 8a      | Biografia PL+EN + brand EN (BB Decorative Sculptures?) | Faza 1                     | 2–4 h                    |
@@ -335,7 +335,7 @@ Web3Forms wysyła z `noreply@web3forms.com` (tego nie zmieniamy), a odpowiedź k
 | 8b      | Copy hero + quote                                      | Faza 4                     | 1 h                      |
 | 10      | Favicon + OG image + symbol BB                         | Faza 4                     | 1–3 h                    |
 | 5       | Web3Forms access key                                   | Faza 5                     | 3 min                    |
-| 9       | Email routing (`kontakt@dekoracyjna-rzezba.pl`)        | Faza 5                     | 5 min                    |
+| 9       | Email routing (`kontakt@rzezbadekoracyjna.pl`)         | Faza 5                     | 5 min                    |
 | 8d      | Polityka prywatności                                   | Faza 5 (przed produkcją)   | 1–2 h                    |
 | 6       | Google Search Console                                  | Faza 8                     | 15 min                   |
 | 7       | Analytics (rekomendacja: Cloudflare Web Analytics)     | Faza 8                     | 5 min                    |

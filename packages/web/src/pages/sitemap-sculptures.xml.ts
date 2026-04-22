@@ -13,7 +13,7 @@ const escape = (s: string): string =>
     .replace(/'/g, "&apos;");
 
 export const GET: APIRoute = async ({ site }) => {
-  const siteUrl = site ?? new URL("https://dekoracyjna-rzezba.pl");
+  const siteUrl = site ?? new URL("https://rzezbadekoracyjna.pl");
   const sculptures = await getSculptures();
 
   const locales: Array<{ code: "pl" | "en"; base: string }> = [

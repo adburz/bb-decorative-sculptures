@@ -84,7 +84,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         access_key: accessKey,
-        from_name: `[dekoracyjna-rzezba.pl] ${data.name}`,
+        from_name: `[rzezbadekoracyjna.pl] ${data.name}`,
         subject,
         email: data.email,
         message: body,
