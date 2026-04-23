@@ -117,27 +117,28 @@ const errorMessage = t(locale, "form.errorGeneric", { email: contactEmail });
       clearError();
 
       const fd = new FormData(form);
+      const accessKey = "3e96ba46-5bce-47a5-898a-6dd09fe3cd96";
       const turnstileToken = (fd.get("cf-turnstile-response") as string | null) ?? "";
 
       const payload = {
-        name: String(fd.get("name") ?? ""),
-        email: String(fd.get("email") ?? ""),
-        subject: String(fd.get("subject") ?? ""),
-        message: String(fd.get("message") ?? ""),
-        sculpture: sculpture ?? "",
-        company: String(fd.get("company") ?? ""),
+        access_key: accessKey,
+        from_name: `[rzezbadekoracyjna.pl] ${fd.get("name")}`,
+        subject: fd.get("subject") || `Zapytanie od ${fd.get("name")}`,
+        email: fd.get("email"),
+        message: fd.get("message"),
         "cf-turnstile-response": turnstileToken,
+        botcheck: "",
       };
 
       setBusy(true);
       try {
-        const res = await fetch("/api/contact", {
+        const res = await fetch("https://api.web3forms.com/submit", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
-        const data = (await res.json().catch(() => ({}))) as { ok?: boolean };
-        if (res.ok && data.ok) {
+        const data = (await res.json().catch(() => ({}))) as { success?: boolean };
+        if (res.ok && data.success) {
           window.location.href = thanksHref;
           return;
         }
