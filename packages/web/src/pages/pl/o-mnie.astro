@@ -10,7 +10,7 @@ const artist = await getArtistPage();
 const siteUrl = Astro.site ?? new URL("https://rzezbadekoracyjna.pl");
 
 const title = t("pl", "about.title");
-const description = artist.bio.pl.slice(0, 155);
+const description = artist.bio?.pl?.slice(0, 155) ?? "";
 
 const jsonLd = personLd(artist, settings, siteUrl);
 ---

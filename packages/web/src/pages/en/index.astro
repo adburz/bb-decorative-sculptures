@@ -37,11 +37,15 @@ const featured = sculptures.slice(0, 3);
       </div>
     </section>
 
-    <QuoteSection
-      eyebrow={t("en", "home.about.eyebrow")}
-      quote={artist.quote.en}
-      body={artist.bio.en}
-      authorLine={`${settings.brandName}, ${t("en", "home.about.signatureLabel")}`}
-    />
+    {
+      artist.quote?.en && (
+        <QuoteSection
+          eyebrow={t("en", "home.about.eyebrow")}
+          quote={artist.quote.en}
+          body={artist.bio?.en}
+          authorLine={`${settings.brandName}, ${t("en", "home.about.signatureLabel")}`}
+        />
+      )
+    }
   </main>
 </BaseLayout>

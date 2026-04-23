@@ -10,8 +10,8 @@ interface Props {
 }
 
 const { artist, settings, locale } = Astro.props;
-const bio = artist.bio[locale];
-const quote = artist.quote[locale];
+const bio = artist.bio?.[locale];
+const quote = artist.quote?.[locale];
 const portraitAlt = artist.portrait
   ? resolveAlt(artist.portrait, locale, settings.brandName)
   : settings.brandName;
@@ -47,14 +47,22 @@ const portraitAlt = artist.portrait
     }
 
     <div class={`flex flex-col gap-8 ${artist.portrait ? "md:col-span-3" : "md:col-span-5"}`}>
-      <blockquote class="border-brand-accent border-l-2 pl-6">
-        <p class="font-display text-brand-text text-2xl italic leading-snug md:text-3xl">
-          &ldquo;{quote}&rdquo;
-        </p>
-      </blockquote>
-      <div class="font-body text-brand-text whitespace-pre-line text-base leading-relaxed">
-        {bio}
-      </div>
+      {
+        quote && (
+          <blockquote class="border-brand-accent border-l-2 pl-6">
+            <p class="font-display text-brand-text text-2xl italic leading-snug md:text-3xl">
+              &ldquo;{quote}&rdquo;
+            </p>
+          </blockquote>
+        )
+      }
+      {
+        bio && (
+          <div class="font-body text-brand-text whitespace-pre-line text-base leading-relaxed">
+            {bio}
+          </div>
+        )
+      }
     </div>
   </div>
 </main>

@@ -55,7 +55,7 @@ export function personLd(artist: ArtistPage, settings: SiteSettings, siteUrl: UR
     "@context": "https://schema.org",
     "@type": "Person",
     name: settings.brandName,
-    description: artist.bio.en,
+    ...(artist.bio?.en ? { description: artist.bio.en } : {}),
     ...(artist.portrait ? { image: absolute(artist.portrait.url, siteUrl) } : {}),
     ...(settings.social.instagram ? { sameAs: [settings.social.instagram] } : {}),
   };
