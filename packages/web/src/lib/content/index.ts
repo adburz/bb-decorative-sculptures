@@ -32,7 +32,12 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     return mod.default;
   }
   const { siteSettingsQuery } = await import("~/lib/sanity/queries");
-  return fromSanity<SiteSettings>(siteSettingsQuery);
+  const settings = await fromSanity<SiteSettings | null>(siteSettingsQuery);
+  if (!settings) {
+    const mod = await import("~/fixtures/siteSettings");
+    return mod.default;
+  }
+  return settings;
 }
 
 export async function getArtistPage(): Promise<ArtistPage> {
@@ -41,7 +46,12 @@ export async function getArtistPage(): Promise<ArtistPage> {
     return mod.default;
   }
   const { artistPageQuery } = await import("~/lib/sanity/queries");
-  return fromSanity<ArtistPage>(artistPageQuery);
+  const artistPage = await fromSanity<ArtistPage | null>(artistPageQuery);
+  if (!artistPage) {
+    const mod = await import("~/fixtures/artistPage");
+    return mod.default;
+  }
+  return artistPage;
 }
 
 export async function getPosts(): Promise<Post[]> {
