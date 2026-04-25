@@ -29,6 +29,12 @@ export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
   tagline,
   contact,
   social,
+  "homeHeroImage": {
+    "url": homeHeroImage.asset->url,
+    "alt": homeHeroImage.alt,
+    "width": homeHeroImage.asset->metadata.dimensions.width,
+    "height": homeHeroImage.asset->metadata.dimensions.height
+  },
   "defaultOgImage": defaultOgImage.asset->url
 }`;
 

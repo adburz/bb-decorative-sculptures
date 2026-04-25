@@ -6,6 +6,7 @@ export default defineType({
   type: "document",
   groups: [
     { name: "brand", title: "Brand", default: true },
+    { name: "home", title: "Strona główna" },
     { name: "contact", title: "Kontakt" },
     { name: "social", title: "Social media" },
     { name: "footer", title: "Stopka" },
@@ -77,6 +78,13 @@ export default defineType({
       group: "footer",
       description:
         "Np. '© Dekoracyjne Rzeźby BB 2026'. Rok można zostawić statyczny albo pominąć — frontend umie podstawić.",
+    }),
+    defineField({
+      name: "homeHeroImage",
+      title: "Obraz tła Hero (strona główna)",
+      type: "image",
+      group: "home",
+      description: "Obraz na całej szerokości sekcji Hero. Rekomendacja: min. 2000×1200px.",
     }),
     defineField({
       name: "defaultOgImage",

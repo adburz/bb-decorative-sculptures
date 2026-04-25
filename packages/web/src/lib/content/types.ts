@@ -36,6 +36,7 @@ export type SiteSettings = {
     hours?: LocalizedString;
   };
   social: { instagram?: string; facebook?: string };
+  homeHeroImage?: ImageWithAlt;
   defaultOgImage?: string;
 };
 
