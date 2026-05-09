@@ -37,6 +37,10 @@ export type SiteSettings = {
   };
   social: { instagram?: string; facebook?: string };
   homeHeroImage?: ImageWithAlt;
+  heroEyebrow?: LocalizedString;
+  heroTitle?: LocalizedString;
+  heroLead?: LocalizedString;
+  heroCtaLabel?: LocalizedString;
   defaultOgImage?: string;
 };
 

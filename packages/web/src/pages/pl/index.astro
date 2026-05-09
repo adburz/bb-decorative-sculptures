@@ -19,10 +19,10 @@ const featured = sculptures.slice(0, 3);
 >
   <main id="main">
     <Hero
-      eyebrow={t("pl", "home.eyebrow")}
-      title={t("pl", "home.title")}
-      lead={t("pl", "home.lead")}
-      cta={{ label: t("pl", "home.cta"), href: "/pl/rzezby/" }}
+      eyebrow={settings.heroEyebrow?.pl ?? t("pl", "home.eyebrow")}
+      title={settings.heroTitle?.pl ?? t("pl", "home.title")}
+      lead={settings.heroLead?.pl ?? t("pl", "home.lead")}
+      cta={{ label: settings.heroCtaLabel?.pl ?? t("pl", "home.cta"), href: "/pl/rzezby/" }}
       backgroundImage={settings.homeHeroImage?.url}
     />
 

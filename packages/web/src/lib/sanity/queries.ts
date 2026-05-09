@@ -35,6 +35,10 @@ export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
     "width": homeHeroImage.asset->metadata.dimensions.width,
     "height": homeHeroImage.asset->metadata.dimensions.height
   },
+  heroEyebrow,
+  heroTitle,
+  heroLead,
+  heroCtaLabel,
   "defaultOgImage": defaultOgImage.asset->url
 }`;
 
