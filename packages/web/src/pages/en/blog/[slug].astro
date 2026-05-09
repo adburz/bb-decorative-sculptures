@@ -7,10 +7,12 @@ import type { Post } from "~/lib/content/types";
 
 export async function getStaticPaths() {
   const posts = await getPosts();
-  return posts.map((post) => ({
-    params: { slug: post.slug.en },
-    props: { post },
-  }));
+  return posts
+    .filter((post) => post.slug.en)
+    .map((post) => ({
+      params: { slug: post.slug.en },
+      props: { post },
+    }));
 }
 
 interface Props {

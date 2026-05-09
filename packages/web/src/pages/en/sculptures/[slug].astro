@@ -7,10 +7,12 @@ import type { Sculpture } from "~/lib/content/types";
 
 export async function getStaticPaths() {
   const sculptures = await getSculptures();
-  return sculptures.map((s) => ({
-    params: { slug: s.slug.en },
-    props: { sculpture: s },
-  }));
+  return sculptures
+    .filter((s) => s.slug.en)
+    .map((s) => ({
+      params: { slug: s.slug.en },
+      props: { sculpture: s },
+    }));
 }
 
 interface Props {
