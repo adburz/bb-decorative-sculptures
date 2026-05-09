@@ -1,7 +1,7 @@
 const sculptureProjection = `{
   _id,
   "title": title,
-  "slug": {"pl": slug_pl.current, "en": slug_en.current},
+  "slug": {"pl": slug.pl.current, "en": slug.en.current},
   "material": {
     "name": material->name,
     "slug": material->slug.current
@@ -44,7 +44,7 @@ export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
 
 export const sculpturesListQuery = `*[_type == "sculpture"] | order(publishedAt desc) ${sculptureProjection}`;
 
-export const sculptureBySlugQuery = `*[_type == "sculpture" && (slug_pl.current == $slug || slug_en.current == $slug)][0] ${sculptureProjection}`;
+export const sculptureBySlugQuery = `*[_type == "sculpture" && (slug.pl.current == $slug || slug.en.current == $slug)][0] ${sculptureProjection}`;
 
 export const artistPageQuery = `*[_type == "artistPage"][0]{
   bio,
@@ -60,7 +60,7 @@ export const artistPageQuery = `*[_type == "artistPage"][0]{
 const postProjection = `{
   _id,
   title,
-  "slug": {"pl": slug_pl.current, "en": slug_en.current},
+  "slug": {"pl": slug.pl.current, "en": slug.en.current},
   excerpt,
   body,
   "coverImage": {
@@ -75,4 +75,4 @@ const postProjection = `{
 
 export const postsListQuery = `*[_type == "post"] | order(publishedAt desc) ${postProjection}`;
 
-export const postBySlugQuery = `*[_type == "post" && (slug_pl.current == $slug || slug_en.current == $slug)][0] ${postProjection}`;
+export const postBySlugQuery = `*[_type == "post" && (slug.pl.current == $slug || slug.en.current == $slug)][0] ${postProjection}`;
